@@ -1,0 +1,60 @@
+{
+    "name": "doctrine/doctrine-laminas-hydrator",
+    "description": "Doctrine hydrators for Laminas applications",
+    "license": "MIT",
+    "keywords": [
+        "doctrine",
+        "hydrator",
+        "laminas"
+    ],
+    "support": {
+        "issues": "https://github.com/doctrine/doctrine-laminas-hydrator/issues",
+        "source": "https://github.com/doctrine/doctrine-laminas-hydrator",
+        "rss": "https://github.com/doctrine/doctrine-laminas-hydrator/releases.atom"
+    },
+    "require": {
+        "php": "~8.0.0 || ~8.1.0 || ~8.2.0",
+        "ext-ctype": "*",
+        "doctrine/collections": "^1.8.0 || ^2.0.0",
+        "doctrine/inflector": "^2.0.4",
+        "doctrine/persistence": "^2.2.3 || ^3.0.0",
+        "laminas/laminas-hydrator": "^4.3.1",
+        "laminas/laminas-stdlib": "^3.6.1"
+    },
+    "require-dev": {
+        "doctrine/coding-standard": "^11.1.0",
+        "phpstan/phpstan": "^1.9.2",
+        "phpunit/phpunit": "^9.5.26",
+        "vimeo/psalm": "^4.30"
+    },
+    "autoload": {
+        "psr-4": {
+            "Doctrine\\Laminas\\Hydrator\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "DoctrineTest\\Laminas\\Hydrator\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        },
+        "sort-packages": true
+    },
+    "scripts": {
+        "check": [
+            "@cs-check",
+            "@phpstan",
+            "@psalm",
+            "@test"
+        ],
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf",
+        "phpstan": "phpstan analyse",
+        "psalm": "psalm --stats",
+        "test": "phpunit --colors=always",
+        "test-coverage": "phpunit --colors=always --coverage-clover=coverage.xml"
+    }
+}
