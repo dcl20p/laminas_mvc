@@ -1,0 +1,69 @@
+{
+  "active": true,
+  "name": "Doctrine Module for Laminas",
+  "slug": "doctrine-module",
+  "versions": [
+    {
+      "name": "5.3",
+      "branchName": "5.3.x",
+      "slug": "5.3",
+      "aliases": [
+        "latest"
+      ],
+      "upcoming": true
+    },
+    {
+      "name": "5.2",
+      "branchName": "5.2.x",
+      "slug": "5.2",
+      "aliases": [
+        "current",
+        "stable"
+      ],
+      "current": true,
+      "maintained": true
+    },
+    {
+      "name": "5.1",
+      "branchName": "5.1.x",
+      "slug": "5.1",
+      "maintained": false
+    },
+    {
+      "name": "5.0",
+      "branchName": "5.0.x",
+      "slug": "5.0",
+      "maintained": false
+    },
+    {
+      "name": "4.4",
+      "branchName": "4.4.x",
+      "slug": "4.4",
+      "maintained": false
+    },
+    {
+      "name": "4.3",
+      "branchName": "4.3.x",
+      "slug": "4.3",
+      "maintained": false
+    },
+    {
+      "name": "4.2",
+      "branchName": "4.2.x",
+      "slug": "4.2",
+      "maintained": false
+    },
+    {
+      "name": "4.1",
+      "branchName": "4.1.x",
+      "slug": "4.1",
+      "maintained": false
+    },
+    {
+      "name": "4.0",
+      "branchName": "4.0.x",
+      "slug": "4.0",
+      "maintained": false
+    }
+  ]
+}
