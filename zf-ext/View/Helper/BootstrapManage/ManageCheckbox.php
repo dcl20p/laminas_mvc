@@ -11,7 +11,7 @@ use Laminas\View\Helper\AbstractHelper;
 use Laminas\View\Helper\EscapeHtmlAttr;
 
 /**
- * Create a "Checkbox" on the gridview
+ * Create a "Checkbox" on the grid view
  *
  * @uses Zend_View_Helper_Abstract
  * @package ZF_View_Helper

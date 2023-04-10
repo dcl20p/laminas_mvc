@@ -15,7 +15,7 @@ use Laminas\View\Helper\AbstractHelper;
 use Zf\Ext\View\Helper\BootstrapManage\ManageIcon;
 
 /**
- * Create a button "Update" on the gridview
+ * Create a button "Update" on the grid view
  *
  * @uses      Zend_View_Helper_Abstract
  * @package   ZF_View_Helper
@@ -29,7 +29,7 @@ class ManageUpdate extends AbstractHelper
     private const DEFAULT_ICON = 'drive_file_rename_outline';
 
     /**
-     * Create button "Update" on the gridview
+     * Create button "Update" element
      *
      * @param string $href     URL
      * @param string $title    Title

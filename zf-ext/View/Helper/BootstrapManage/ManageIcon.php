@@ -12,7 +12,7 @@ namespace Zf\Ext\View\Helper\BootstrapManage;
 use Laminas\View\Helper\AbstractHelper;
 
 /**
- * Create a "Button" on the gridview
+ * Create a "Button" on the grid view
  *
  * @uses Zend_View_Helper_Abstract
  * @package ZF_View_Helper
@@ -30,12 +30,11 @@ class ManageIcon extends AbstractHelper
 
     public function __invoke(string $icon, array $attribs = []): string
     {
-        // Không render button.
         if ($attribs["href"] === '#') {
             return '';
         }
 
-        // Chuỗi các thuộc tính của button.
+        // String of button properties.
         $attributes = '';
         foreach ($attribs as $key => $val) {
             if (in_array($key, ['aclass', 'href', 'title', 'onclick', 'target', 'iclass'])) {
@@ -46,7 +45,7 @@ class ManageIcon extends AbstractHelper
             }
         }
 
-        // Không có href.
+        // If no href provided.
         if (trim($attribs['href']) === '') {
             $attribs['href'] = 'javascript:void(0);';
         }

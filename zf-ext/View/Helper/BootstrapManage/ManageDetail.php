@@ -3,18 +3,18 @@
  * @category   ZF
  * @package    ZF_View_Helper
  * @subpackage ManageDetail
- * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc.
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies
  * @version    $Id: ManageDetail.php 2014-16-04
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
 namespace Zf\Ext\View\Helper\BootstrapManage;
-use Laminas\I18n\Translator\TranslatorInterface;
 
+use Laminas\I18n\Translator\TranslatorInterface;
 use Laminas\View\Helper\AbstractHelper;
 
 /**
- * Create a button "Detail" on the gridview
+ * Create a button "Detail" on the grid view
  *
  * @uses      AbstractHelper
  * @package   ZF_View_Helper
@@ -23,38 +23,30 @@ use Laminas\View\Helper\AbstractHelper;
 class ManageDetail extends AbstractHelper
 {
     /**
-     * Create button "Detail" on the gridview
-     * 
-     * @param string                   $href
-     * @param string|null              $title
-     * @param array<string,mixed>|null $attribs
+     * Create button "Detail" element
+     *
+     * @param string        $href
+     * @param string|null   $title
+     * @param array|null    $attribs
+     *
+     * @return string
      */
     public function __invoke(string $href, ?string $title = null, ?array $attribs = null): string
     {
-        // TH: không có title.
-        $title = $title ?? $this->getTranslator()->translate('Xem chi tiết');
+        // Use null coalescing operator to get title if it's not set.
+        $title = $title ?? $this->view->translate('Xem chi tiết');
         
-        // Them vao mang attribs.
-        $attribs = array_merge($attribs ?? [], [
+        // Merge given attributes with the default ones.
+        $attribs = array_merge([
             'href' => $href,
             'title' => $title,
-            'aclass' => $attribs['aclass'] ?? '',
-        ]);
+            'aclass' => '',
+        ], $attribs ?? []);
         
-        // Icon cua button.
+        // Set the button icon.
         $icon = 'visibility';
-		
-        // Khoi tao manageIcon.
-        return $this->view->manageIcon($icon, $attribs);
-    }
 
-    /**
-     * Get translator instance.
-     *
-     * @return TranslatorInterface
-     */
-    protected function getTranslator(): TranslatorInterface
-    {
-        return $this->view->plugin('translate')->getTranslator();
+        // Return the icon using the "manageIcon" view helper.
+        return $this->view->manageIcon($icon, $attribs);
     }
 }

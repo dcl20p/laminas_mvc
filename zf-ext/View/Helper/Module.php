@@ -15,21 +15,23 @@ class Module
         return [
             'view_helpers' => [
                 'factories' => [
-                    Helper\LazyAsset::class                  => InvokableFactory::class,
-                    Helper\Url::class                        => Helper\HelperFactory::class,
-                    Helper\MinifyHeadLink::class             => InvokableFactory::class,
-                    Helper\MinifyHeadScript::class           => InvokableFactory::class,
-            
-                    BootstrapToolbar::class                  => InvokableFactory::class,
-                    BootstrapToolbar\ToolbarIcon::class      => InvokableFactory::class,
-                    BootstrapToolbar\ToolbarInsert::class    => ToolbarFactory::class,
-                    BootstrapToolbar\ToolbarDelete::class    => ToolbarFactory::class,
-            
-                    BootstrapManage\ManageIcon::class        => InvokableFactory::class,
-                    BootstrapManage\ManageCheckbox::class    => InvokableFactory::class,
-                    BootstrapManage\ManageCheckboxAll::class => InvokableFactory::class,
-                    BootstrapManage\ManageUpdate::class      => InvokableFactory::class,
-                    BootstrapManage\ManageDetail::class      => InvokableFactory::class,
+                    Helper\LazyAsset::class                   => InvokableFactory::class,
+                    Helper\Url::class                         => Helper\HelperFactory::class,
+                    Helper\MinifyHeadLink::class              => InvokableFactory::class,
+                    Helper\MinifyHeadScript::class            => InvokableFactory::class,
+             
+                    BootstrapToolbar::class                   => InvokableFactory::class,
+                    BootstrapToolbar\ToolbarIcon::class       => InvokableFactory::class,
+                    BootstrapToolbar\ToolbarInsert::class     => ToolbarFactory::class,
+                    BootstrapToolbar\ToolbarDelete::class     => ToolbarFactory::class,
+             
+                    BootstrapManage\ManageIcon::class         => InvokableFactory::class,
+                    BootstrapManage\ManageCheckbox::class     => InvokableFactory::class,
+                    BootstrapManage\ManageCheckboxAll::class  => InvokableFactory::class,
+                    BootstrapManage\ManageUpdate::class       => InvokableFactory::class,
+                    BootstrapManage\ManageDetail::class       => InvokableFactory::class,
+                    BootstrapManage\ManageDelete::class       => InvokableFactory::class,
+                    BootstrapManage\ManageChangeStatus::class => InvokableFactory::class,
 
                 ],
                 'aliases' => [
@@ -48,6 +50,8 @@ class Module
                     'manageCheckboxAll' => BootstrapManage\ManageCheckboxAll::class,
                     'manageUpdate'      => BootstrapManage\ManageUpdate::class,
                     'manageDetail'      => BootstrapManage\ManageDetail::class,
+                    'manageDelete'      => BootstrapManage\ManageDelete::class,
+                    'manageChangeStatus'=> BootstrapManage\ManageChangeStatus::class,
                 ]
             ]
         ];

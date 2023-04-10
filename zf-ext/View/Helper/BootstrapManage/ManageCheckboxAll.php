@@ -10,7 +10,7 @@ namespace Zf\Ext\View\Helper\BootstrapManage;
 use Laminas\View\Helper\AbstractHelper;
 
 /**
- * Create a "Checkbox" on the gridview, use check all checkbox has attribute name="id[]"
+ * Create a "Checkbox" on the grid view, use check all checkbox has attribute name="id[]"
  *
  * @uses Zend_View_Helper_Abstract
  * @package ZF_View_Helper
