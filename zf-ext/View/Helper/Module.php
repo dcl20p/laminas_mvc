@@ -33,6 +33,8 @@ class Module
                     BootstrapManage\ManageDelete::class       => InvokableFactory::class,
                     BootstrapManage\ManageChangeStatus::class => InvokableFactory::class,
 
+                    Helper\HeadScriptAction::class            => Helper\HelperFactory::class,
+                    Helper\HeadStyleAction::class             => Helper\HelperFactory::class,
                 ],
                 'aliases' => [
                     'lazyAsset'         => Helper\LazyAsset::class,
@@ -52,6 +54,9 @@ class Module
                     'manageDetail'      => BootstrapManage\ManageDetail::class,
                     'manageDelete'      => BootstrapManage\ManageDelete::class,
                     'manageChangeStatus'=> BootstrapManage\ManageChangeStatus::class,
+
+                    'headScriptAction'  => Helper\HeadScriptAction::class,
+                    'headStyleAction'   => Helper\HeadStyleAction::class,
                 ]
             ]
         ];
