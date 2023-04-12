@@ -11,6 +11,7 @@ use Zf\Ext\Controller\ControllerFactory;
 use Zf\Ext\Controller\EntityManager;
 use Zf\Ext\Controller\ZfRedirect;
 use Zf\Ext\Controller\ZfTranslator;
+use Zf\Ext\Controller\ZfAuthentication;
 use Laminas\ServiceManager\Factory\InvokableFactory;
 
 class Module
@@ -29,12 +30,14 @@ class Module
                     ZfUrl::class            => ControllerFactory::class,
                     EntityManager::class    => ControllerFactory::class,
                     ZfTranslator::class     => ControllerFactory::class,
+                    ZfAuthentication::class => ControllerFactory::class,
                 ],
                 'aliases' => [
                     'zfRedirect'                    => ZfRedirect::class,
                     'zfUrl'                         => ZfUrl::class,
                     EntityManager::SERVICE_ALIAS    => EntityManager::class,
                     ZfTranslator::SERVICE_ALIAS     => ZfTranslator::class,
+                    ZfAuthentication::SERVICE_ALIAS => ZfAuthentication::class,
                 ]
             ],
         ];
