@@ -10,7 +10,7 @@
 namespace Zf\Ext\Controller;
 
 use Laminas\Mvc\Controller\Plugin\AbstractPlugin;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Laminas\I18n\Translator\TranslatorInterface;
 
 class ZfTranslator extends AbstractPlugin
