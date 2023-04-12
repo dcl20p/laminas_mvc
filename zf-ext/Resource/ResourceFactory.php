@@ -2,7 +2,7 @@
 
 namespace Zf\Ext\Resource;
 
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Laminas\ServiceManager\FactoryInterface;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 use Zf\Ext\Resource\ControllerResource;
@@ -16,7 +16,7 @@ class ResourceFactory implements FactoryInterface
      * This method creates the Laminas\Authentication\AuthenticationService service 
      * and returns its instance. 
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
         $config = $container->get('config');
         $appResource = isset($config['app_resource']) ? $config['app_resource'] : '';

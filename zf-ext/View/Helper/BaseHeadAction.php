@@ -2,7 +2,7 @@
 namespace Zf\Ext\View\Helper;
 
 use Laminas\View\Helper\AbstractHelper;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 /**
  * Helper for creating and retrieving URLs that depend on the routes and router

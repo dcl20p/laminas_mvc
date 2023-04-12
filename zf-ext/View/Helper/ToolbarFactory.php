@@ -7,7 +7,7 @@
 
 namespace Zf\Ext\View\Helper;
 
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 
 /**
@@ -28,7 +28,7 @@ class ToolbarFactory implements FactoryInterface
     /**
      * {@inheritDoc}
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
         $names = explode('\\', $requestedName);
         $this->requestedName = lcfirst(array_pop($names));

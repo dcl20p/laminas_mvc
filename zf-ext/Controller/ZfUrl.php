@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Zf\Ext\Controller;
 
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Laminas\Mvc\Controller\Plugin\AbstractPlugin;
 use Zf\Ext\View\Helper\Url as ZfUrlHelper;
 
