@@ -57,7 +57,7 @@ class ToolbarDelete extends AbstractHelper
 
         // Add data attributes to attribs array
         $attribs['data-confirm'] = $attribs['data-confirm'] ?? $this->view->translate(
-			'Bạn có chắc muốn xóa những dòng đã chọn'
+			'Bạn có chắc muốn xóa những dòng đã chọn?'
 		);
         $attribs['data-rq-one'] = $this->view->translate('Vui lòng chọn ít nhất 1 dòng');
 
