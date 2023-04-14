@@ -90,6 +90,7 @@ return array(
     'Doctrine\\Common\\' => array($vendorDir . '/doctrine/common/src', $vendorDir . '/doctrine/event-manager/src'),
     'DoctrineORMModule\\' => array($vendorDir . '/doctrine/doctrine-orm-module/src'),
     'DoctrineModule\\' => array($vendorDir . '/doctrine/doctrine-module/src'),
+    'DeviceDetector\\' => array($vendorDir . '/matomo/device-detector'),
     'Detection\\' => array($vendorDir . '/mobiledetect/mobiledetectlib/src'),
     'DeepCopy\\' => array($vendorDir . '/myclabs/deep-copy/src/DeepCopy'),
     'Brick\\VarExporter\\' => array($vendorDir . '/brick/varexporter/src'),
