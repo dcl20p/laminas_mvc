@@ -41,6 +41,7 @@ class ComposerStaticInitc1d257fba5026671536afd09e260bd65
         '9ad95be8d1f1c62e52cb995973bf5246' => __DIR__ . '/..' . '/laminas/laminas-stratigility/src/functions/host.legacy.php',
         '44f5a19d6d262baf7ab55c8a8bb56f5a' => __DIR__ . '/..' . '/laminas/laminas-stratigility/src/functions/middleware.legacy.php',
         'dd89a2771fc24829c6aade9a7786bd8f' => __DIR__ . '/..' . '/laminas/laminas-stratigility/src/functions/path.legacy.php',
+        '04c6c5c2f7095ccf6c481d3e53e1776f' => __DIR__ . '/..' . '/mustangostang/spyc/Spyc.php',
         'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
     );
@@ -153,6 +154,7 @@ class ComposerStaticInitc1d257fba5026671536afd09e260bd65
             'Doctrine\\Common\\' => 16,
             'DoctrineORMModule\\' => 18,
             'DoctrineModule\\' => 15,
+            'DeviceDetector\\' => 15,
             'Detection\\' => 10,
             'DeepCopy\\' => 9,
         ),
@@ -501,6 +503,10 @@ class ComposerStaticInitc1d257fba5026671536afd09e260bd65
         'DoctrineModule\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/doctrine-module/src',
+        ),
+        'DeviceDetector\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/matomo/device-detector',
         ),
         'Detection\\' => 
         array (

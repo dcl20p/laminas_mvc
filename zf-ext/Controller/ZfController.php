@@ -11,9 +11,9 @@
 namespace Zf\Ext\Controller;
 
 use Laminas\Mvc\Controller\AbstractActionController;
-
+use Zf\Ext\Utilities\ZFHelper;
 /**
- * @todo       allow specifying status code as a default, or as an option to methods
+ * allow specifying status code as a default, or as an option to methods
  */
 class ZfController extends AbstractActionController
 {
@@ -97,4 +97,115 @@ class ZfController extends AbstractActionController
         }
         return $items;
     }
+
+    /**
+     * Get device information
+     *
+     * @return array Device information array
+     */
+    public function getDevice(): array
+    {
+        $default = [
+            'browser'       => 'UNKNOWN',
+            'agent'         => $this->getParamHeader('user-agent'),
+            'device'        => 'UNKNOWN',
+            'version'       => 'UNKNOWN',
+            'type'          => 'UNKNOWN',
+            'os'            => 'UNKNOWN',
+            'os_version'    => 'UNKNOWN',
+            'ip_address'    => $ip = $this->getZfHelper()->getClientIp(),
+            'hostname'      => $this->getHostByIP($ip)
+        ];
+
+        try {
+            $matomoParser = new \DeviceDetector\DeviceDetector(
+                $default['agent'] ?? ''
+            );
+
+            $matomoParser->setCache(
+                new \DeviceDetector\Cache\DoctrineBridge(
+                    new \Doctrine\Common\Cache\PhpFileCache( DATA_PATH . '/cache/matomo')
+                )
+            );
+            
+            $matomoParser->parse();
+            
+            if( $matomoParser->isBot() === true ) {
+                $botInfo = $matomoParser->getBot();
+                $default['browser'] = $botInfo['name'] ?? '';
+                $default['os'] = $botInfo['category'] ?? '';
+                $default['device'] = 'BOT';
+            }
+            else{
+                $client = $matomoParser->getClient();
+                $osParse = $matomoParser->getOs();
+                $default['browser'] = $client['name'] ?? '';
+                $default['version'] = $client['version'] ?? '';
+                
+                $osName = $osParse['name'] ?? '';
+                if ( $osName ){
+                    $default['os'] = $osName;
+                    $default['os_version'] = $osParse['version'] ?? '';
+                }
+                $device = $matomoParser->getDeviceName();
+                if ( $device ){
+                    $default['device'] = $device;
+                }
+                if ( !empty($client['type']) ){
+                    $default['type'] = strtoupper($client['type']);
+                }
+            }
+
+        } catch (\Throwable $e) {
+            $this->saveErrorLog($e);
+        }
+        
+        return $default;
+    }
+
+
+    /**
+     * Get the value of the specified header key
+     *
+     * @param string $key The header key to get the value of
+     *
+     * @return mixed|null The value of the specified header key, or null if it does not exist
+     */
+    public function getParamHeader(string $key = ''): mixed
+    {
+        return $this->params()->fromHeader($key)->getFieldValue() ?? null;
+    }
+
+    /**
+     * Common helper
+     * @var \Zf\Ext\Utilities\ZFHelper
+     */
+    private static ?ZFHelper $_common = null;
+
+    /**
+     * Get the ZF Helper instance
+     *
+     * @return ZFHelper The ZF Helper instance
+     */
+    public function getZfHelper(): ZFHelper
+    {
+        return self::$_common ??= new ZFHelper();
+    }
+
+    /**
+     * Get host by IP address
+     * 
+     * @param string $ip The IP address to get the host from
+     * 
+     * @return string The host or IP address if host is not available
+     */
+    protected function getHostByIP(string $ip): string
+    {
+        $host = gethostbyaddr($ip) ?? $ip;
+        // Get provider
+        $host = preg_replace('/(\d+\.)/', '', $host);
+
+        return empty($host) ? $ip : $host;
+    }
+
 }
