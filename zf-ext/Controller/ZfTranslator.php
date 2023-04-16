@@ -24,10 +24,10 @@ class ZfTranslator extends AbstractPlugin
         $this->translator = $container->get(TranslatorInterface::class);
     }
 
-    public function __invoke(string $message = ''): string
+    public function __invoke(string $message = null): mixed
     {
         if (empty($message)) {
-            return '';
+            return $this->translator;
         }
 
         return $this->translator->translate($message);
