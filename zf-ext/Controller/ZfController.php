@@ -208,4 +208,30 @@ class ZfController extends AbstractActionController
         return empty($host) ? $ip : $host;
     }
 
+    /**
+     * Add error flash message
+     *
+     * @param string $msg
+     * @return void
+     */
+    public function addErrorMessage(string $msg = ''): void 
+    {
+        $this->flashMessenger()->addErrorMessage(
+            $this->mvcTranslate($msg)
+        );
+    }
+
+    /**
+     * Add success flash message
+     *
+     * @param string $msg
+     * @return void
+     */
+    public function addSuccessMessage(string $msg = ''): void 
+    {
+        $this->flashMessenger()->addSuccessMessage(
+            $this->mvcTranslate($msg)
+        );
+    }
+
 }
