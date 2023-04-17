@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'laminas/laminas-mvc-skeleton',
-        'pretty_version' => 'dev-main',
-        'version' => 'dev-main',
-        'reference' => 'c231b9fe8e2fa9345c398fe01797394fe6626ee4',
+        'pretty_version' => '1.0.0+no-version-set',
+        'version' => '1.0.0.0',
+        'reference' => NULL,
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -220,6 +220,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'laminas/laminas-crypt' => array(
+            'pretty_version' => '3.10.0',
+            'version' => '3.10.0.0',
+            'reference' => '588375caf4d505fee90d1449e9714c912ceb5051',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../laminas/laminas-crypt',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'laminas/laminas-db' => array(
             'pretty_version' => '2.17.0',
             'version' => '2.17.0.0',
@@ -364,6 +373,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'laminas/laminas-math' => array(
+            'pretty_version' => '3.6.0',
+            'version' => '3.6.0.0',
+            'reference' => '5770fc632a3614f5526632a8b70f41b65130460e',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../laminas/laminas-math',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'laminas/laminas-modulemanager' => array(
             'pretty_version' => '2.14.0',
             'version' => '2.14.0.0',
@@ -455,9 +473,9 @@
             'dev_requirement' => false,
         ),
         'laminas/laminas-mvc-skeleton' => array(
-            'pretty_version' => 'dev-main',
-            'version' => 'dev-main',
-            'reference' => 'c231b9fe8e2fa9345c398fe01797394fe6626ee4',
+            'pretty_version' => '1.0.0+no-version-set',
+            'version' => '1.0.0.0',
+            'reference' => NULL,
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

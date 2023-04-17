@@ -28,7 +28,8 @@
         "mobiledetect/mobiledetectlib": "*",
         "doctrine/doctrine-module": "*",
         "doctrine/doctrine-orm-module": "*",
-        "matomo/device-detector": "*"
+        "matomo/device-detector": "*",
+        "laminas/laminas-crypt": "*"
     },
     "autoload": {
         "psr-4": {
