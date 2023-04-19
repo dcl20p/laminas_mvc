@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'laminas/laminas-mvc-skeleton',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => NULL,
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '312d5c6d494d7102fd4e40b68dd1d8cc67a3faaa',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -187,10 +187,20 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'laminas/laminas-cache-storage-adapter-redis' => array(
+            'pretty_version' => '2.5.0',
+            'version' => '2.5.0.0',
+            'reference' => '81aea68071958341bd53b1e8e1b593ab29c3c8b8',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../laminas/laminas-cache-storage-adapter-redis',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'laminas/laminas-cache-storage-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
                 0 => '1.0.0',
+                1 => '1.0',
             ),
         ),
         'laminas/laminas-cli' => array(
@@ -473,9 +483,9 @@
             'dev_requirement' => false,
         ),
         'laminas/laminas-mvc-skeleton' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => NULL,
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '312d5c6d494d7102fd4e40b68dd1d8cc67a3faaa',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

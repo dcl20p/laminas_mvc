@@ -75,6 +75,7 @@ return array(
     'Laminas\\Config\\' => array($vendorDir . '/laminas/laminas-config/src'),
     'Laminas\\ComponentInstaller\\' => array($vendorDir . '/laminas/laminas-component-installer/src'),
     'Laminas\\Cli\\' => array($vendorDir . '/laminas/laminas-cli/src'),
+    'Laminas\\Cache\\Storage\\Adapter\\' => array($vendorDir . '/laminas/laminas-cache-storage-adapter-redis/src'),
     'Laminas\\Cache\\' => array($vendorDir . '/laminas/laminas-cache/src'),
     'Laminas\\Authentication\\' => array($vendorDir . '/laminas/laminas-authentication/src'),
     'Fig\\Http\\Message\\' => array($vendorDir . '/fig/http-message-util/src'),

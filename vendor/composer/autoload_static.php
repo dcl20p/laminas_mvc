@@ -133,6 +133,7 @@ class ComposerStaticInitc1d257fba5026671536afd09e260bd65
             'Laminas\\Config\\' => 15,
             'Laminas\\ComponentInstaller\\' => 27,
             'Laminas\\Cli\\' => 12,
+            'Laminas\\Cache\\Storage\\Adapter\\' => 30,
             'Laminas\\Cache\\' => 14,
             'Laminas\\Authentication\\' => 23,
         ),
@@ -444,6 +445,10 @@ class ComposerStaticInitc1d257fba5026671536afd09e260bd65
         'Laminas\\Cli\\' => 
         array (
             0 => __DIR__ . '/..' . '/laminas/laminas-cli/src',
+        ),
+        'Laminas\\Cache\\Storage\\Adapter\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laminas/laminas-cache-storage-adapter-redis/src',
         ),
         'Laminas\\Cache\\' => 
         array (

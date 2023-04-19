@@ -1,6 +1,8 @@
 <?php
 namespace Zf\Ext\Utilities;
 
+use Zf\Ext\CacheCore;
+
 class CsrfToken
 {
     const CSRF_TOKEN_FOLDER = 'csrf_tokens';
@@ -8,6 +10,10 @@ class CsrfToken
     const RAND_STRING = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const REDIS_NAMESPACE_PREFIX = 'CSRF_TOKEN_';
 
+    /**
+     * Check expired
+     * @var bool
+     */
     private bool $_useOneTime = true;
 
     /**
@@ -23,19 +29,21 @@ class CsrfToken
      * @return string The normalized string
      */
 
-    private static function normalizeString(string $str): string
+    private static function normalStr(string $str): string
     {
         return preg_replace('/[^a-zA-Z0-9]/', '', $str);
     }
 
     /**
-     * Generate a CSRF token key
-     * @param array $opts Additional options to be included in the key generation
-     * @return string The generated CSRF token key
+     * Creates a unique CSRF token key for the given options array 
+     * and returns the normalized string after hashing it using MD5
+     *
+     * @param array $opts An array of options to include in the hash
+     * @return string The normalized and hashed CSRF token key
      */
-    private static function generateCsrfTokenKey(array $opts = []): string
+    private static function createCsrfKey(array $opts = []): string
     {
-        return self::normalizeString(md5(json_encode([
+        return self::normalStr(md5(json_encode([
             $_SERVER['REMOTE_ADDR'] ?? '',
             getHostByName(getHostName()),
             ...$opts
@@ -61,68 +69,19 @@ class CsrfToken
                 "{$userFolder}{$filename}." . self::CSRF_TOKEN_EXT
             ]));
     }
+
     /**
      * Get a Redis cache instance for the given namespace
      * @param string $namespace The namespace of the Redis cache
      * @param int|null $lifetime The lifetime of the Redis cache (optional)
-     * @return \Laminas\Cache\Storage\StorageInterface The Redis cache instance
+     * @return CacheCore The Redis cache instance
     */
-    private function getRedisCache(string $namespace, ?int $lifetime = null): \Laminas\Cache\Storage\StorageInterface
+    private function getRedisCache(string $namespace, ?int $lifetime = null)
     {
-        return \Zf\Ext\CacheCore::_getRedisCaches($namespace, [
+        return CacheCore::_getRedisCaches($namespace, [
             'lifetime' => $lifetime,
             'namespace' => self::REDIS_NAMESPACE_PREFIX . $namespace
         ]);
-    }
-
-    /**
-     * Normalizes a string by removing all characters except alphanumeric characters
-     *
-     * @param string $str The input string to normalize
-     *
-     * @return string The normalized string
-     */
-    private static function normalStr(string $str): string
-    {
-        return preg_replace('/[^a-zA-Z0-9]/', '', $str);
-    }
-
-    /**
-     * Creates a unique CSRF token key for the given options array and returns the normalized string after hashing it using MD5
-     *
-     * @param array $opts An array of options to include in the hash
-     *
-     * @return string The normalized and hashed CSRF token key
-     */
-    private static function createCsrkKey(array $opts = []): string
-    {
-        return self::normalStr(md5(json_encode([
-            $_SERVER['REMOTE_ADDR'] ?? '',
-            getHostByName(getHostName()),
-            ...$opts
-        ])));
-    }
-
-    /**
-     * Returns the path for the given user folder, filename, and site (optional), based on whether CSRF_TOKEN_DIR is defined or not.
-     *
-     * @param string $userFolder The user folder name
-     * @param string $filename The filename to use
-     * @param string|null $site (optional) The site name
-     *
-     * @return string The path to the CSRF token
-     */
-    private static function generalCsrkPath(string $userFolder, string $filename, ?string $site = null): string
-    {
-        return (defined('CSRF_TOKEN_DIR') ? implode('/', [
-            CSRF_TOKEN_DIR,
-            "{$userFolder}_{$filename}." . self::CSRF_TOKEN_EXT
-        ]) : implode('/', [
-                DATA_PATH,
-                self::CSRF_TOKEN_FOLDER,
-                $site ?? APPLICATION_SITE,
-                "{$userFolder}_{$filename}." . self::CSRF_TOKEN_EXT
-            ]));
     }
 
     /**
@@ -141,7 +100,8 @@ class CsrfToken
     }
 
     /**
-     * Checks if the given CSRF token key is valid by looking up Redis cache for the key with the given namespace and lifetime (optional)
+     * Checks if the given CSRF token key is valid by looking up 
+     * Redis cache for the key with the given namespace and lifetime (optional)
      *
      * @param string $namespace The cache namespace
      * @param string $key The CSRF token key
@@ -149,7 +109,6 @@ class CsrfToken
      *
      * @return bool True if the token is valid, false otherwise
      */
-
     private function isValidTokenByRedisAdapter(string $namespace, string $key, int $lifetime = 86400): bool
     {
         $redis = $this->getRedisCache($namespace, $lifetime);
@@ -162,17 +121,35 @@ class CsrfToken
             $redis->removeItem($key);
         }
 
+        unset($redis);
         return $isValid;
     }
 
+    /**
+     * Check token is valid by redis adapter
+     * @param string $namespace
+     * @param string $key
+     * @param string $token
+     * @param int $lifetime
+     * @return bool
+     */
     private function clearTokenByRedisAdapter(string $namespace, string $key, int $lifetime = 86400): bool
     {
-        return $this->getRedisCache($namespace, $lifetime)->removeItem($key);
+        return $this->getRedisCache($namespace, $lifetime)
+        ->removeItem($key);
     }
 
+    /**
+     * Create CSRF token
+     * @param string $userFolder
+     * @param array $unique
+     * @param string $site
+     * @param number $lifetime
+     * @return string
+     */
     public function generalCsrfToken(string $userFolder, array $unique = [], ?string $site = null, int $lifetime = 86400): string
     {
-        $key = self::createCsrkKey($unique);
+        $key = self::createCsrfKey($unique);
         $length = strlen($key);
 
         if (defined('REDIS_CONFIG')) {
@@ -184,7 +161,7 @@ class CsrfToken
             );
         } else {
             @file_put_contents(
-                self::generalCsrkPath($userFolder, $key, $site),
+                self::getCsrfTokenPath($userFolder, $key, $site),
                 base64_encode(gzcompress(time()))
             );
         }
@@ -200,7 +177,6 @@ class CsrfToken
      * Checks if the token string is valid.
      *
      * @param string $token The token string to validate.
-     *
      * @return bool|string Returns `true` if the token is valid, otherwise `false`.
      */
     public function validToken(string $token): bool|string
@@ -218,7 +194,11 @@ class CsrfToken
 
         // Parse token.
         $key = chr((int) mb_substr($token, $length + $tkLength));
-        $token = self::normalStr(str_replace(':', $key, strrev(mb_substr($token, $length, $tkLength))));
+        $token = self::normalStr(str_replace(
+            ':', 
+            $key, 
+            strrev(mb_substr($token, $length, $tkLength))
+        ));
 
         return $token;
     }
@@ -249,7 +229,7 @@ class CsrfToken
             );
         }
 
-        $filePath = self::generalCsrkPath($userFolder, $token);
+        $filePath = self::getCsrfTokenPath($userFolder, $token);
 
         if (file_exists($filePath)) {
             if ($this->_useOneTime) {
@@ -291,7 +271,7 @@ class CsrfToken
             );
         }
 
-        $filePath = realpath(self::generalCsrkPath($userFolder, $token));
+        $filePath = realpath(self::getCsrfTokenPath($userFolder, $token));
 
         if ($filePath && file_exists($filePath)) {
             return @unlink($filePath);
