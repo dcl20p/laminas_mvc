@@ -14,7 +14,7 @@ class CsrfToken
      * Check expired
      * @var bool
      */
-    private bool $_useOneTime = true;
+    public bool $_useOneTime = true;
 
     /**
      * Constructor
