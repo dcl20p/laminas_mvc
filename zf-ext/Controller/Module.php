@@ -31,6 +31,7 @@ class Module
                     EntityManager::class    => ControllerFactory::class,
                     ZfTranslator::class     => ControllerFactory::class,
                     ZfAuthentication::class => ControllerFactory::class,
+                    ZfCsrfToken::class      => ControllerFactory::class,
                 ],
                 'aliases' => [
                     'zfRedirect'                    => ZfRedirect::class,
@@ -38,6 +39,7 @@ class Module
                     EntityManager::SERVICE_ALIAS    => EntityManager::class,
                     ZfTranslator::SERVICE_ALIAS     => ZfTranslator::class,
                     ZfAuthentication::SERVICE_ALIAS => ZfAuthentication::class,
+                    ZfCsrfToken::SERVICE_ALIAS      => ZfCsrfToken::class,
                 ]
             ],
         ];

@@ -12,6 +12,7 @@ namespace Zf\Ext\Controller;
 use Laminas\Mvc\Controller\Plugin\AbstractPlugin;
 use Interop\Container\ContainerInterface;
 use Laminas\Authentication\AuthenticationService;
+use Zf\Ext\Utilities\CsrfToken;
 
 /**
  * Class ZfCsrfToken
@@ -22,9 +23,9 @@ class ZfCsrfToken extends AbstractPlugin
     const SERVICE_ALIAS = 'zfCsrfToken';
 
     /**
-     * @var \Zf\Ext\Utilities\CsrfToken|null
+     * @var CsrfToken|null
      */
-    protected static ?\Zf\Ext\Utilities\CsrfToken $csrfToken = null;
+    protected static  ?CsrfToken $csrfToken = null;
 
     /**
      * @var string
@@ -38,7 +39,7 @@ class ZfCsrfToken extends AbstractPlugin
     public function __construct(ContainerInterface $container)
     {
         if (!self::$csrfToken) {
-            self::$csrfToken = new \Zf\Ext\Utilities\CsrfToken();
+            self::$csrfToken = new CsrfToken();
         }
 
         if ($container->has(AuthenticationService::class)) {
@@ -113,6 +114,7 @@ class ZfCsrfToken extends AbstractPlugin
     public function isValidCsrfToken(?string $token = null, ?string $userFolder = null, int $lifetime = 86400, ?string $site = null): bool
     {
         $token = $this->getToken($token);
+        dd($token);
         return self::$csrfToken->isValidCsrfToken($userFolder ?? self::$userKey, $token, $lifetime, $site);
     }
 
