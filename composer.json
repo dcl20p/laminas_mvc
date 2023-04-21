@@ -30,7 +30,8 @@
         "doctrine/doctrine-orm-module": "*",
         "matomo/device-detector": "*",
         "laminas/laminas-crypt": "*",
-        "laminas/laminas-cache-storage-adapter-redis": "*"
+        "laminas/laminas-cache-storage-adapter-redis": "*",
+        "laminas/laminas-serializer": "*"
     },
     "autoload": {
         "psr-4": {

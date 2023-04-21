@@ -114,7 +114,6 @@ class ZfCsrfToken extends AbstractPlugin
     public function isValidCsrfToken(?string $token = null, ?string $userFolder = null, int $lifetime = 86400, ?string $site = null): bool
     {
         $token = $this->getToken($token);
-        dd($token);
         return self::$csrfToken->isValidCsrfToken($userFolder ?? self::$userKey, $token, $lifetime, $site);
     }
 

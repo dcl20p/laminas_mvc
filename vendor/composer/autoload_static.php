@@ -101,6 +101,7 @@ class ComposerStaticInitc1d257fba5026671536afd09e260bd65
             'Laminas\\SkeletonInstaller\\' => 26,
             'Laminas\\Session\\' => 16,
             'Laminas\\ServiceManager\\' => 23,
+            'Laminas\\Serializer\\' => 19,
             'Laminas\\Router\\' => 15,
             'Laminas\\Psr7Bridge\\' => 19,
             'Laminas\\Paginator\\' => 18,
@@ -317,6 +318,10 @@ class ComposerStaticInitc1d257fba5026671536afd09e260bd65
         'Laminas\\ServiceManager\\' => 
         array (
             0 => __DIR__ . '/..' . '/laminas/laminas-servicemanager/src',
+        ),
+        'Laminas\\Serializer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laminas/laminas-serializer/src',
         ),
         'Laminas\\Router\\' => 
         array (

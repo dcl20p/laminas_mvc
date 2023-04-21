@@ -25,7 +25,7 @@ abstract class CacheCore
      *
      * @var StorageInterface|null
      */
-    protected static ?StorageInterface $_cacheCore = null;
+    protected static $_cacheCore = null;
 
     /**
      * The Doctrine entity manager adapter.
@@ -120,7 +120,7 @@ abstract class CacheCore
      *
      * @return StorageInterface The Redis cache storage.
      */
-    public static function _getRedisCaches(string $cacheKey, array $opts = []): StorageInterface
+    public static function _getRedisCaches(string $cacheKey, array $opts = [])
     {
         $lifetime = $opts['lifetime'] ?? 86400; // 86400 = 1 days
         $lifetime = ($opts['lifetime'] === false) ? null : $lifetime;
@@ -138,8 +138,7 @@ abstract class CacheCore
                     $opts['namespace'] ?? DOMAIN_NAME
                 );
         }
-
-        return (new LaminasRedisCache(self::$_cacheCore))
+        return (new LaminasRedisCache(self::$_cacheCore[$cacheKey]))
             ->setMyNamespace($opts['namespace'] ?? DOMAIN_NAME)
             ->setMyTTL($lifetime);
     }
@@ -151,7 +150,7 @@ abstract class CacheCore
      * @param int|bool $lifetime The cache lifetime
      * @return StorageInterface The Redis cache storage instance
      */
-    public static function createRedisCache(string $cacheKey, array $options = [], int|bool $lifetime = false): StorageInterface
+    public static function createRedisCache(string $cacheKey, array $options = [], int|bool $lifetime = false): mixed
     {
         $adapterName = ZFRedisAdapter::class;
         $namespace = $options['namespace'] ?? 'redis_cache';
