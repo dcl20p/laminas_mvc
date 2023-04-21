@@ -10,6 +10,7 @@
 
 namespace Zf\Ext\Controller;
 
+use Doctrine\ORM\Query\Expr\Func;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Zf\Ext\Utilities\ZFHelper;
 /**
@@ -100,7 +101,6 @@ class ZfController extends AbstractActionController
 
     /**
      * Get device information
-     *
      * @return array Device information array
      */
     public function getDevice(): array
@@ -166,14 +166,89 @@ class ZfController extends AbstractActionController
 
     /**
      * Get the value of the specified header key
-     *
      * @param string $key The header key to get the value of
-     *
      * @return mixed|null The value of the specified header key, or null if it does not exist
      */
     public function getParamHeader(string $key = ''): mixed
     {
         return $this->params()->fromHeader($key)->getFieldValue() ?? null;
+    }
+
+    /**
+     * Custom get param payload
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
+     */
+    public function getParamsPayload(string $key = null, mixed $default = null): mixed
+    {
+        $payload = $this->getRequest()->getContent();
+        return @json_decode($payload, true)[$key] ?? $default;
+    }
+
+    /**
+     * Custom get param from post method
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
+     */
+    public function getParamsPost(string $key = null, mixed $default = null): mixed
+    {
+        return $this->params()->fromPost($key, $default);
+    }
+
+    /**
+     * Custom get param from query
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
+     */
+    public function getParamsQuery(string $key = null, mixed $default = null): mixed
+    {
+        return $this->params()->fromQuery($key, $default);
+    }
+
+    /**
+     * Custom get param from route
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
+     */
+    public function getParamsRoute(string $key = null, mixed $default = null): mixed
+    {
+        return $this->params()->fromRoute($key, $default);
+    }
+
+    /**
+     * Custom get param from file
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
+     */
+    public function getParamsFiles(string $key = null, mixed $default = null): mixed
+    {
+        return $this->params()->fromFiles($key, $default);
+    }
+
+    /**
+     * Custom is post request
+     * @return bool
+     */
+    public function isPostRequest(): bool
+    {
+        return $this->getRequest()->isPost();
+    }
+
+    /**
+     * Custom redirect to route
+     * @param string $routeName
+     * @param array $options
+     * 
+     */
+    public function redirectToRoute(string $routeName = '', array $options = []): mixed
+    {
+        $routeName = $routeName ?? $this->getCurrentRouteName();
+        return $this->zfRedirect()->toRoute($routeName, $options);
     }
 
     /**
@@ -184,7 +259,6 @@ class ZfController extends AbstractActionController
 
     /**
      * Get the ZF Helper instance
-     *
      * @return ZFHelper The ZF Helper instance
      */
     public function getZfHelper(): ZFHelper
@@ -194,9 +268,7 @@ class ZfController extends AbstractActionController
 
     /**
      * Get host by IP address
-     * 
      * @param string $ip The IP address to get the host from
-     * 
      * @return string The host or IP address if host is not available
      */
     protected function getHostByIP(string $ip): string
@@ -209,8 +281,7 @@ class ZfController extends AbstractActionController
     }
 
     /**
-     * Add error flash message
-     *
+     * Custom flash error's message
      * @param string $msg
      * @return void
      */
@@ -222,8 +293,7 @@ class ZfController extends AbstractActionController
     }
 
     /**
-     * Add success flash message
-     *
+     * Custom flash success's message
      * @param string $msg
      * @return void
      */
@@ -234,4 +304,107 @@ class ZfController extends AbstractActionController
         );
     }
 
+    /**
+     * Custom get repository entityManager
+     * 
+     * @param Models\Entities $entityName
+     * @param string $connectionName
+     * @return \Doctrine\ORM\EntityRepository|\Doctrine\Persistence\ObjectRepository
+     */
+    public function getEntityRepo($entityName, $connectionName = 'orm_default')
+    {
+        return $this->getEntityManager($connectionName)->getRepository($entityName);
+    }
+
+    /**
+     * Custom get connection of entityManager
+     * @param string $connectionName
+     * @return \Doctrine\DBAL\Connection
+     */
+    public function getEntityConnection(string $connectionName = 'orm_default')
+    {
+        return $this->getEntityManager($connectionName)->getConnection();
+    }
+
+    /**
+     * Custom entityManager rollback
+     * @param string $connectionName
+     * @return void
+     */
+    public function rollbackTransaction(string $connectionName = 'orm_default'): void
+    {
+        $this->getEntityManager($connectionName)->rollback();
+    }
+
+    /**
+     * Custom entityManager commit
+     * @param string $connectionName
+     * @return void
+     */
+    public function commitTransaction(string $connectionName = 'orm_default'): void
+    {
+        $this->getEntityManager($connectionName)->commit();
+    }
+
+    /**
+     * Custom entityManager commit
+     * @param string $connectionName
+     * @return void
+     */
+    public function startTransaction(string $connectionName = 'orm_default'): void
+    {
+        $this->getEntityManager($connectionName)->beginTransaction();
+    }
+
+    /**
+     * Custom create CSRF token
+     *
+     * @param array $unique
+     * @param string|null $userFolder
+     * @param string|null $site
+     * @param int $lifetime
+     * @return string
+     */
+    public function generateCsrfToken(
+        array $unique = [], 
+        ?string $userFolder = null, 
+        ?string $site = null, 
+        int $lifetime = 86400): string 
+    {
+        return $this->zfCsrfToken()->generateCsrfToken($unique, $userFolder, $site, $lifetime);
+    }
+
+    /**
+     * Custom check CSRF token
+     *
+     * @param string|null $token
+     * @param string|null $userFolder
+     * @param int $lifetime
+     * @param string|null $site
+     * @return bool true if token is valid
+     */
+    public function isValidCsrfToken(
+        ?string $token = null, 
+        ?string $userFolder = null, 
+        int $lifetime = 86400, 
+        ?string $site = null): bool
+    {
+        return $this->zfCsrfToken()->isValidCsrfToken($token, $userFolder, $lifetime, $site);
+    }
+
+    /**
+     * Custom clear CSRF token
+     *
+     * @param string|null $token
+     * @param string|null $userFolder
+     * @param string|null $site
+     * @return bool true if success
+     */
+    public function clearCsrfToken(
+        ?string $token = null, 
+        ?string $userFolder = null, 
+        ?string $site = null): bool
+    {
+        return $this->zfCsrfToken()->clearCsrfToken($token, $userFolder, $site);
+    }
 }
