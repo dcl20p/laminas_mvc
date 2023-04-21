@@ -19,6 +19,7 @@ class Module
                     Helper\Url::class                         => Helper\HelperFactory::class,
                     Helper\MinifyHeadLink::class              => InvokableFactory::class,
                     Helper\MinifyHeadScript::class            => InvokableFactory::class,
+                    Helper\CsrfToken::class                   => Helper\HelperFactory::class,
              
                     BootstrapToolbar::class                   => InvokableFactory::class,
                     BootstrapToolbar\ToolbarIcon::class       => InvokableFactory::class,
@@ -37,26 +38,27 @@ class Module
                     Helper\HeadStyleAction::class             => Helper\HelperFactory::class,
                 ],
                 'aliases' => [
-                    'lazyAsset'         => Helper\LazyAsset::class,
-                    'zfUrl'             => Helper\Url::class,
-                    'minifyHeadLink'    => Helper\MinifyHeadLink::class,
-                    'minifyHeadScript'  => Helper\MinifyHeadScript::class,
+                    'lazyAsset'                     => Helper\LazyAsset::class,
+                    'zfUrl'                         => Helper\Url::class,
+                    'minifyHeadLink'                => Helper\MinifyHeadLink::class,
+                    'minifyHeadScript'              => Helper\MinifyHeadScript::class,
+                    Helper\CsrfToken::SERVICE_ALIAS => Helper\CsrfToken::class,
 
-                    'bootstrapToolbar'  => BootstrapToolbar::class,
-                    'toolbarIcon'       => BootstrapToolbar\ToolbarIcon::class,
-                    'toolbarInsert'     => BootstrapToolbar\ToolbarInsert::class,
-                    'toolbarDelete'     => BootstrapToolbar\ToolbarDelete::class,
-
-                    'manageIcon'        => BootstrapManage\ManageIcon::class,
-                    'manageCheckbox'    => BootstrapManage\ManageCheckbox::class,
-                    'manageCheckboxAll' => BootstrapManage\ManageCheckboxAll::class,
-                    'manageUpdate'      => BootstrapManage\ManageUpdate::class,
-                    'manageDetail'      => BootstrapManage\ManageDetail::class,
-                    'manageDelete'      => BootstrapManage\ManageDelete::class,
-                    'manageChangeStatus'=> BootstrapManage\ManageChangeStatus::class,
-
-                    'headScriptAction'  => Helper\HeadScriptAction::class,
-                    'headStyleAction'   => Helper\HeadStyleAction::class,
+                    'bootstrapToolbar'              => BootstrapToolbar::class,
+                    'toolbarIcon'                   => BootstrapToolbar\ToolbarIcon::class,
+                    'toolbarInsert'                 => BootstrapToolbar\ToolbarInsert::class,
+                    'toolbarDelete'                 => BootstrapToolbar\ToolbarDelete::class,
+                            
+                    'manageIcon'                    => BootstrapManage\ManageIcon::class,
+                    'manageCheckbox'                => BootstrapManage\ManageCheckbox::class,
+                    'manageCheckboxAll'             => BootstrapManage\ManageCheckboxAll::class,
+                    'manageUpdate'                  => BootstrapManage\ManageUpdate::class,
+                    'manageDetail'                  => BootstrapManage\ManageDetail::class,
+                    'manageDelete'                  => BootstrapManage\ManageDelete::class,
+                    'manageChangeStatus'            => BootstrapManage\ManageChangeStatus::class,
+                            
+                    'headScriptAction'              => Helper\HeadScriptAction::class,
+                    'headStyleAction'               => Helper\HeadStyleAction::class,
                 ]
             ]
         ];

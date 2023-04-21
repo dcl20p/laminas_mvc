@@ -43,6 +43,7 @@ return array(
     'Laminas\\SkeletonInstaller\\' => array($vendorDir . '/laminas/laminas-skeleton-installer/src'),
     'Laminas\\Session\\' => array($vendorDir . '/laminas/laminas-session/src'),
     'Laminas\\ServiceManager\\' => array($vendorDir . '/laminas/laminas-servicemanager/src'),
+    'Laminas\\Serializer\\' => array($vendorDir . '/laminas/laminas-serializer/src'),
     'Laminas\\Router\\' => array($vendorDir . '/laminas/laminas-router/src'),
     'Laminas\\Psr7Bridge\\' => array($vendorDir . '/laminas/laminas-psr7bridge/src'),
     'Laminas\\Paginator\\' => array($vendorDir . '/laminas/laminas-paginator/src'),
