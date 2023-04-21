@@ -80,9 +80,16 @@ class ZfCsrfToken extends AbstractPlugin
      * @param int $lifetime
      * @return string
      */
-    public function generalCsrfToken(array $unique = [], ?string $userFolder = null, ?string $site = null, int $lifetime = 86400): string
+    public function generalCsrfToken(
+        array $unique = [], 
+        ?string $userFolder = null, 
+        ?string $site = null, 
+        int $lifetime = 86400
+    ): string
     {
-        return self::$csrfToken->generalCsrfToken($userFolder ?? self::$userKey, $unique, $site, $lifetime);
+        return self::$csrfToken->generalCsrfToken(
+            $userFolder ?? self::$userKey, $unique, $site, $lifetime
+        );
     }
 
     /**
@@ -111,10 +118,17 @@ class ZfCsrfToken extends AbstractPlugin
      * @param string|null $site
      * @return bool true if token is valid
      */
-    public function isValidCsrfToken(?string $token = null, ?string $userFolder = null, int $lifetime = 86400, ?string $site = null): bool
+    public function isValidCsrfToken(
+        ?string $token = null, 
+        ?string $userFolder = null, 
+        int $lifetime = 86400, 
+        ?string $site = null
+    ): bool
     {
         $token = $this->getToken($token);
-        return self::$csrfToken->isValidCsrfToken($userFolder ?? self::$userKey, $token, $lifetime, $site);
+        return self::$csrfToken->isValidCsrfToken(
+            $userFolder ?? self::$userKey, $token, $lifetime, $site
+        );
     }
 
     /**
@@ -128,7 +142,9 @@ class ZfCsrfToken extends AbstractPlugin
     public function clearCsrfToken(?string $token = null, ?string $userFolder = null, ?string $site = null): bool
     {
         $token = $this->getToken($token);
-        return self::$csrfToken->clearCsrfToken($userFolder ?? self::$userKey, $token, $site);
+        return self::$csrfToken->clearCsrfToken(
+            $userFolder ?? self::$userKey, $token, $site
+        );
     }
 
 
