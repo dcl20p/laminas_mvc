@@ -305,7 +305,7 @@ class ZfController extends AbstractActionController
     }
 
     /**
-     * Custom get repository entity manager
+     * Custom get repository entityManager
      * 
      * @param Models\Entities $entityName
      * @param string $connectionName
@@ -314,5 +314,97 @@ class ZfController extends AbstractActionController
     public function getEntityRepo($entityName, $connectionName = 'orm_default')
     {
         return $this->getEntityManager($connectionName)->getRepository($entityName);
+    }
+
+    /**
+     * Custom get connection of entityManager
+     * @param string $connectionName
+     * @return \Doctrine\DBAL\Connection
+     */
+    public function getEntityConnection(string $connectionName = 'orm_default')
+    {
+        return $this->getEntityManager($connectionName)->getConnection();
+    }
+
+    /**
+     * Custom entityManager rollback
+     * @param string $connectionName
+     * @return void
+     */
+    public function rollbackTransaction(string $connectionName = 'orm_default'): void
+    {
+        $this->getEntityManager($connectionName)->rollback();
+    }
+
+    /**
+     * Custom entityManager commit
+     * @param string $connectionName
+     * @return void
+     */
+    public function commitTransaction(string $connectionName = 'orm_default'): void
+    {
+        $this->getEntityManager($connectionName)->commit();
+    }
+
+    /**
+     * Custom entityManager commit
+     * @param string $connectionName
+     * @return void
+     */
+    public function startTransaction(string $connectionName = 'orm_default'): void
+    {
+        $this->getEntityManager($connectionName)->beginTransaction();
+    }
+
+    /**
+     * Custom create CSRF token
+     *
+     * @param array $unique
+     * @param string|null $userFolder
+     * @param string|null $site
+     * @param int $lifetime
+     * @return string
+     */
+    public function generateCsrfToken(
+        array $unique = [], 
+        ?string $userFolder = null, 
+        ?string $site = null, 
+        int $lifetime = 86400): string 
+    {
+        return $this->zfCsrfToken()->generateCsrfToken($unique, $userFolder, $site, $lifetime);
+    }
+
+    /**
+     * Custom check CSRF token
+     *
+     * @param string|null $token
+     * @param string|null $userFolder
+     * @param int $lifetime
+     * @param string|null $site
+     * @return bool true if token is valid
+     */
+    public function isValidCsrfToken(
+        ?string $token = null, 
+        ?string $userFolder = null, 
+        int $lifetime = 86400, 
+        ?string $site = null): bool
+    {
+        return $this->zfCsrfToken()->isValidCsrfToken($token, $userFolder, $lifetime, $site);
+    }
+
+    /**
+     * Custom clear CSRF token
+     *
+     * @param string|null $token
+     * @param string|null $userFolder
+     * @param string|null $site
+     * @return bool true if success
+     */
+    public function clearCsrfToken(
+        ?string $token = null, 
+        ?string $userFolder = null, 
+        ?string $site = null): bool
+    {
+        return $this->zfCsrfToken()->clearCsrfToken($token, $userFolder, $site);
     }
 }

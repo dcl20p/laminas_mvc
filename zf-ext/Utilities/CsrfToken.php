@@ -147,7 +147,7 @@ class CsrfToken
      * @param number $lifetime
      * @return string
      */
-    public function generalCsrfToken(string $userFolder, array $unique = [], ?string $site = null, int $lifetime = 86400): string
+    public function generateCsrfToken(string $userFolder, array $unique = [], ?string $site = null, int $lifetime = 86400): string
     {
         $key = self::createCsrfKey($unique);
         $length = strlen($key);

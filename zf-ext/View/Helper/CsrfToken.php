@@ -67,9 +67,9 @@ class CsrfToken extends AbstractHelper
      * @param string|null $userFolder
      * @return string
      */
-    public function generalCsrfToken(array $unique = [], ?string $userFolder = null): string
+    public function generateCsrfToken(array $unique = [], ?string $userFolder = null): string
     {
         $userFolder ??= $this->_userFolder;
-        return self::$csrfToken->generalCsrfToken($userFolder, $unique);
+        return self::$csrfToken->generateCsrfToken($userFolder, $unique);
     }
 }
