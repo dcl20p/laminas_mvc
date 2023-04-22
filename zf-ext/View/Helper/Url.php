@@ -40,7 +40,7 @@ class Url extends AbstractHelper
         
         if ($plugins->has('getPermission')) {
             $this->_checkPerAcl = $plugins->get('getPermission');
-            if ($this->_checkPerAcl->isUnRegisted()) {
+            if ($this->_checkPerAcl->isUnRegistered()) {
                 $this->_checkPerAcl = null;
             }
         }

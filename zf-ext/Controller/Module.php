@@ -32,6 +32,7 @@ class Module
                     ZfTranslator::class     => ControllerFactory::class,
                     ZfAuthentication::class => ControllerFactory::class,
                     ZfCsrfToken::class      => ControllerFactory::class,
+                    ZfPermission::class     => ControllerFactory::class,
                 ],
                 'aliases' => [
                     'zfRedirect'                    => ZfRedirect::class,
@@ -40,6 +41,7 @@ class Module
                     ZfTranslator::SERVICE_ALIAS     => ZfTranslator::class,
                     ZfAuthentication::SERVICE_ALIAS => ZfAuthentication::class,
                     ZfCsrfToken::SERVICE_ALIAS      => ZfCsrfToken::class,
+                    ZfPermission::SERVICE_ALIAS     => ZfPermission::class,
                 ]
             ],
         ];

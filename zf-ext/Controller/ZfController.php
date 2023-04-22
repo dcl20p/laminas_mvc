@@ -242,13 +242,23 @@ class ZfController extends AbstractActionController
     /**
      * Custom redirect to route
      * @param string $routeName
+     * @param array $params
      * @param array $options
      * 
      */
-    public function redirectToRoute(string $routeName = '', array $options = []): mixed
+    public function redirectToRoute(string $routeName = '', array $params = [], array $options = []): mixed
     {
         $routeName = $routeName ?? $this->getCurrentRouteName();
-        return $this->zfRedirect()->toRoute($routeName, $options);
+        return $this->zfRedirect()->toRoute($routeName, $params, $options);
+    }
+
+    /**
+     * Custom redirect to url
+     * @param string $url
+     */
+    public function redirectToUrl(string $url = ''): mixed
+    {
+        return $this->zfRedirect()->toUrl($url);
     }
 
     /**
@@ -406,5 +416,16 @@ class ZfController extends AbstractActionController
         ?string $site = null): bool
     {
         return $this->zfCsrfToken()->clearCsrfToken($token, $userFolder, $site);
+    }
+
+    /**
+     * Get current ID of login user
+     *
+     * @return mixed
+     */
+    public function getLoginId(): mixed
+    {
+        $key = $this->getAuthen()->authen_key;
+        return intval($this->getAuthen()->{$key} ?? 0);
     }
 }
