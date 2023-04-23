@@ -12,6 +12,8 @@ namespace Zf\Ext\Controller;
 
 use DeviceDetector\Cache\DoctrineBridge;
 use DeviceDetector\DeviceDetector;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 use Laminas\Mime\Mime;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
@@ -153,7 +155,7 @@ class ZfController extends AbstractActionController
         try {
             $cacheDirectory = DATA_PATH . '/cache';
 
-            // Tạo adapter của Symfony Cache
+            // Create adapter of Symfony Cache
             $symfonyCacheAdapter = new FilesystemAdapter(
                 'piwik', 0, $cacheDirectory
             );
@@ -197,7 +199,6 @@ class ZfController extends AbstractActionController
             }
 
         } catch (\Throwable $e) {
-            dd($e->getMessage(), $e->getTraceAsString());
             $this->saveErrorLog($e);
         }
         
@@ -469,4 +470,30 @@ class ZfController extends AbstractActionController
         $key = $this->getAuthen()->authen_key ?? 'adm_id';
         return intval($this->getAuthen()->{$key} ?? 0);
     }
+
+    /**
+     * Custom get paginator
+     *
+     * @param Query $query
+     * @param integer $limit
+     * @param integer $page
+     * @return mixed
+     */
+    // public function getZfPaginator(Query $query, int $limit, int $page): mixed
+    // {
+    //     return $this->getPaginator($query)
+    //         ->setItemCountPerPage($limit)
+    //         ->setCurrentPageNumber($page);
+    // }
+
+    // /**
+    //  * Custom get paginator but dont set page
+    //  *
+    //  * @param Query $query
+    //  * @return mixed
+    //  */
+    // public function getDoctrinePaginator(Query $query) : mixed
+    // {
+    //     return $this->getPaginator($query);
+    // }
 }

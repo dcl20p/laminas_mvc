@@ -33,6 +33,7 @@ class Module
                     ZfAuthentication::class => ControllerFactory::class,
                     ZfCsrfToken::class      => ControllerFactory::class,
                     ZfPermission::class     => ControllerFactory::class,
+                    ZfPaginator::class      => ControllerFactory::class,
                 ],
                 'aliases' => [
                     'zfRedirect'                    => ZfRedirect::class,
@@ -42,6 +43,7 @@ class Module
                     ZfAuthentication::SERVICE_ALIAS => ZfAuthentication::class,
                     ZfCsrfToken::SERVICE_ALIAS      => ZfCsrfToken::class,
                     ZfPermission::SERVICE_ALIAS     => ZfPermission::class,
+                    ZfPaginator::SERVICE_ALIAS      => ZfPaginator::class,
                 ]
             ],
         ];

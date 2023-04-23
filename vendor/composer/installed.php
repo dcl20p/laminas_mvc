@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'laminas/laminas-mvc-skeleton',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => NULL,
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '50f710504bd36e84bf1da5c99d7cbaacf3d3ef50',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -501,9 +501,9 @@
             'dev_requirement' => false,
         ),
         'laminas/laminas-mvc-skeleton' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => NULL,
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '50f710504bd36e84bf1da5c99d7cbaacf3d3ef50',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -770,8 +770,8 @@
         'psr/cache-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0|2.0',
-                1 => '1.0',
+                0 => '1.0',
+                1 => '1.0|2.0',
             ),
         ),
         'psr/clock' => array(
@@ -889,8 +889,8 @@
         'psr/simple-cache-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0|2.0',
-                1 => '1.0',
+                0 => '1.0',
+                1 => '1.0|2.0',
             ),
         ),
         'sebastian/cli-parser' => array(
