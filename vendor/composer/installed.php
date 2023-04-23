@@ -179,9 +179,9 @@
             'dev_requirement' => false,
         ),
         'laminas/laminas-cache' => array(
-            'pretty_version' => '3.10.0',
-            'version' => '3.10.0.0',
-            'reference' => '5807c51b92fd256bbf58eda6df4c1d27148bbfb8',
+            'pretty_version' => '3.10.1',
+            'version' => '3.10.1.0',
+            'reference' => '7bda6c5b500b916cbb03d0504069865d31b3efa5',
             'type' => 'library',
             'install_path' => __DIR__ . '/../laminas/laminas-cache',
             'aliases' => array(),
@@ -383,12 +383,30 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'laminas/laminas-mail' => array(
+            'pretty_version' => '2.22.0',
+            'version' => '2.22.0.0',
+            'reference' => '1d307ff65328c00117c6d90ba0084fdd0fc2bd5c',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../laminas/laminas-mail',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'laminas/laminas-math' => array(
             'pretty_version' => '3.6.0',
             'version' => '3.6.0.0',
             'reference' => '5770fc632a3614f5526632a8b70f41b65130460e',
             'type' => 'library',
             'install_path' => __DIR__ . '/../laminas/laminas-math',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'laminas/laminas-mime' => array(
+            'pretty_version' => '2.11.0',
+            'version' => '2.11.0.0',
+            'reference' => '60ec04b755821c79c1987ce291b44e69f2c0831f',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../laminas/laminas-mime',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
@@ -752,7 +770,8 @@
         'psr/cache-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0',
+                0 => '1.0|2.0',
+                1 => '1.0',
             ),
         ),
         'psr/clock' => array(
@@ -870,7 +889,8 @@
         'psr/simple-cache-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0',
+                0 => '1.0|2.0',
+                1 => '1.0',
             ),
         ),
         'sebastian/cli-parser' => array(
@@ -1017,6 +1037,30 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'symfony/cache' => array(
+            'pretty_version' => 'v5.4.22',
+            'version' => '5.4.22.0',
+            'reference' => '5ed986c4ef65f0dea5e9753630b5cb1f07f847d6',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../symfony/cache',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'symfony/cache-contracts' => array(
+            'pretty_version' => 'v2.5.2',
+            'version' => '2.5.2.0',
+            'reference' => '64be4a7acb83b6f2bf6de9a02cee6dad41277ebc',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../symfony/cache-contracts',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'symfony/cache-implementation' => array(
+            'dev_requirement' => false,
+            'provided' => array(
+                0 => '1.0|2.0',
+            ),
+        ),
         'symfony/console' => array(
             'pretty_version' => 'v6.2.7',
             'version' => '6.2.7.0',
@@ -1095,6 +1139,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'symfony/polyfill-intl-idn' => array(
+            'pretty_version' => 'v1.27.0',
+            'version' => '1.27.0.0',
+            'reference' => '639084e360537a19f9ee352433b84ce831f3d2da',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../symfony/polyfill-intl-idn',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'symfony/polyfill-intl-normalizer' => array(
             'pretty_version' => 'v1.27.0',
             'version' => '1.27.0.0',
@@ -1119,6 +1172,15 @@
             'reference' => '869329b1e9894268a8a61dabb69153029b7a8c97',
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/polyfill-php72',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'symfony/polyfill-php73' => array(
+            'pretty_version' => 'v1.27.0',
+            'version' => '1.27.0.0',
+            'reference' => '9e8ecb5f92152187c4799efd3c96b78ccab18ff9',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../symfony/polyfill-php73',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
@@ -1157,6 +1219,15 @@
             'install_path' => __DIR__ . '/../symfony/var-dumper',
             'aliases' => array(),
             'dev_requirement' => true,
+        ),
+        'symfony/var-exporter' => array(
+            'pretty_version' => 'v6.2.8',
+            'version' => '6.2.8.0',
+            'reference' => '8302bb670204500d492c6b8c595ee9a27da62cd6',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../symfony/var-exporter',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
         'theseer/tokenizer' => array(
             'pretty_version' => '1.2.1',

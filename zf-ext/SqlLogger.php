@@ -44,7 +44,12 @@ class SqlLogger extends DebugStack
 
         if (!empty($retrieveData['params'])) {
             foreach ($retrieveData['params'] as $key => $val) {
-                if (is_array($val)) $retrieveData['params'][$key] = '"' . implode('","', $val) . '"';
+                if (is_array($val)) {
+                    foreach ($val as $idx => $row){
+                        $val[$idx] = var_export($row, true);
+                    }
+                    $retrieveData['params'][$key] = implode(',', $val);
+                }
             }
         } else $retrieveData['params'] = [];
 

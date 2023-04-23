@@ -10,9 +10,14 @@
 
 namespace Zf\Ext\Controller;
 
-use Doctrine\ORM\Query\Expr\Func;
+use DeviceDetector\Cache\DoctrineBridge;
+use DeviceDetector\DeviceDetector;
+use Laminas\Mime\Mime;
 use Laminas\Mvc\Controller\AbstractActionController;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Component\Cache\DoctrineProvider;
 use Zf\Ext\Utilities\ZFHelper;
+use Zf\Ext\Utilities\ZFTransportSmtp;
 /**
  * allow specifying status code as a default, or as an option to methods
  */
@@ -54,33 +59,63 @@ class ZfController extends AbstractActionController
         $url = mb_substr((string)$this->getRequest()->getUri()->getPath(), 0, 200);
         $msg = $exception->getMessage();
 
-        dd($msg, $exception->getTraceAsString());
+        // Send mail warning
+        $this->sendMailWarningError("Uri: {$url}<br>Message: {$msg}");
 
-        // $this->sendMailWarningError("Uri: {$url}<br>Message: {$msg}");
+        $entityManager = $this->getEntityManager();
+        $connection = $entityManager->getConnection();
 
-        // $entityManager = $this->getEntityManager();
-        // $connection = $entityManager->getConnection();
+        $pathApp = realpath(APPLICATION_PATH . '/../../');
+        $pathLib = realpath(LIBRARY_PATH . '/../');
+        $pathPub = realpath(PUBLIC_PATH . '/../');
 
-        // $pathApp = realpath(APPLICATION_PATH . '/../../');
-        // $pathLib = realpath(LIBRARY_PATH . '/../');
-        // $pathPub = realpath(PUBLIC_PATH . '/../');
+        try {
+            $connection->insert('tbl_error', [
+                'error_user_id' => $user ? ($user->{$user->authen_key} ?? null) : null,
+                'error_uri' => $url,
+                'error_params' => @json_encode($params),
+                'error_method' => $this->getRequest()->getMethod(),
+                'error_msg' => 'Message: ' . str_replace([$pathApp, $pathPub, $pathLib], '', substr($msg, 0, 2000))
+                    . ".\nOn line: " . $exception->getLine()
+                    . ".\nOf file: " . str_replace([$pathApp, $pathPub, $pathLib], '', $exception->getFile()),
+                'error_trace' => str_replace([$pathApp, $pathPub, $pathLib], '', substr($exception->getTraceAsString(), 0, 6000)),
+                'error_code' => $exception->getCode(),
+                'error_time' => time()
+            ]);
+        } catch (\Throwable $e) {
+            throw new \RuntimeException('Unable to save error log: ' . $e->getMessage());
+        }
+    }
 
-        // try {
-        //     $connection->insert('tbl_error', [
-        //         'error_user_id' => $user ? ($user->{$user->authen_key} ?? null) : null,
-        //         'error_uri' => $url,
-        //         'error_params' => $params,
-        //         'error_method' => $this->getRequest()->getMethod(),
-        //         'error_msg' => 'Message: ' . str_replace([$pathApp, $pathPub, $pathLib], '', substr($msg, 0, 2000))
-        //             . ".\nOn line: " . $exception->getLine()
-        //             . ".\nOf file: " . str_replace([$pathApp, $pathPub, $pathLib], '', $exception->getFile()),
-        //         'error_trace' => str_replace([$pathApp, $pathPub, $pathLib], '', substr($exception->getTraceAsString(), 0, 6000)),
-        //         'error_code' => $exception->getCode(),
-        //         'error_time' => time()
-        //     ]);
-        // } catch (\Throwable $e) {
-        //     throw new \RuntimeException('Unable to save error log: ' . $e->getMessage());
-        // }
+    /**
+     * Auto send email to admin
+     *
+     * @param string $content
+     * @return bool
+     */
+    protected function sendMailWarningError(string $content = ''): bool
+    {
+        if (defined('ERROR_AUTO_SEND_MAIL')
+            && !empty(ERROR_AUTO_SEND_MAIL)
+        ) {
+            try {
+                return ZFTransportSmtp::sendMail([
+                    'to'        => EMAIL_RECEIVE_ERROR,
+                    'toName'    => 'System Administator',
+                    
+                    'from'      => SIGN_UP_EMAIL,
+                    'fromName'  => DOMAIN_NAME ?? 'System',
+                    
+                    'replyTo'   => NO_REPLY_EMAIL,
+                    'title'     => 'Your service got an error. Please check it',
+                    'msg'       => $content,
+                    'encoding'  => Mime::ENCODING_QUOTEDPRINTABLE
+                ], $this->getEntityConnection());
+            } catch (\Throwable $e) {
+                throw new \RuntimeException('Unable to send mail: ' . $e->getMessage());
+            }
+            return false;
+        } else return false;
     }
 
     /**
@@ -118,27 +153,34 @@ class ZfController extends AbstractActionController
         ];
 
         try {
-            $matomoParser = new \DeviceDetector\DeviceDetector(
+            $cacheDirectory = DATA_PATH . '/cache';
+
+            // Tạo adapter của Symfony Cache
+            $symfonyCacheAdapter = new FilesystemAdapter(
+                'piwik', 0, $cacheDirectory
+            );
+            $doctrineCacheProvider = new DoctrineProvider (
+                $symfonyCacheAdapter
+            );
+            $doctrineCacheBridge = new DoctrineBridge(
+                $doctrineCacheProvider
+            );
+            $piwikParser = new DeviceDetector(
                 $default['agent'] ?? ''
             );
+            $piwikParser->setCache($doctrineCacheBridge);
 
-            $matomoParser->setCache(
-                new \DeviceDetector\Cache\DoctrineBridge(
-                    new \Doctrine\Common\Cache\PhpFileCache( DATA_PATH . '/cache/matomo')
-                )
-            );
+            $piwikParser->parse();
             
-            $matomoParser->parse();
-            
-            if( $matomoParser->isBot() === true ) {
-                $botInfo = $matomoParser->getBot();
+            if( $piwikParser->isBot() === true ) {
+                $botInfo = $piwikParser->getBot();
                 $default['browser'] = $botInfo['name'] ?? '';
                 $default['os'] = $botInfo['category'] ?? '';
                 $default['device'] = 'BOT';
             }
             else{
-                $client = $matomoParser->getClient();
-                $osParse = $matomoParser->getOs();
+                $client = $piwikParser->getClient();
+                $osParse = $piwikParser->getOs();
                 $default['browser'] = $client['name'] ?? '';
                 $default['version'] = $client['version'] ?? '';
                 
@@ -147,7 +189,7 @@ class ZfController extends AbstractActionController
                     $default['os'] = $osName;
                     $default['os_version'] = $osParse['version'] ?? '';
                 }
-                $device = $matomoParser->getDeviceName();
+                $device = $piwikParser->getDeviceName();
                 if ( $device ){
                     $default['device'] = $device;
                 }
@@ -157,6 +199,7 @@ class ZfController extends AbstractActionController
             }
 
         } catch (\Throwable $e) {
+            dd($e->getMessage(), $e->getTraceAsString());
             $this->saveErrorLog($e);
         }
         
@@ -425,7 +468,7 @@ class ZfController extends AbstractActionController
      */
     public function getLoginId(): mixed
     {
-        $key = $this->getAuthen()->authen_key;
+        $key = $this->getAuthen()->authen_key ?? 'adm_id';
         return intval($this->getAuthen()->{$key} ?? 0);
     }
 }

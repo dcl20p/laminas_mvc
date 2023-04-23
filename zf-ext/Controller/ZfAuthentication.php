@@ -44,11 +44,8 @@ class ZfAuthentication extends AbstractPlugin
                 $authenConfig = $configs['zf_authen_key'] ?? [];
                 $groupKey = ($configs['zf_permission'] ?? [])[APPLICATION_SITE]['user_key'] ?? 'user_groupcode';
                 
-                if (property_exists($this->authen, 'authen_key'))
-                    $this->authen->authen_key = $authenConfig[APPLICATION_SITE] ?? 'user_id';
-                
-                    if (property_exists($this->authen, 'group_key'))
-                    $this->authen->group_key = $groupKey;
+                $this->authen->authen_key = $authenConfig[APPLICATION_SITE] ?? 'user_id';
+                $this->authen->group_key = $groupKey;
 
                 unset($configs);
             }
