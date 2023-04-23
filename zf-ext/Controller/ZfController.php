@@ -111,9 +111,7 @@ class ZfController extends AbstractActionController
                     'msg'       => $content,
                     'encoding'  => Mime::ENCODING_QUOTEDPRINTABLE
                 ], $this->getEntityConnection());
-            } catch (\Throwable $e) {
-                throw new \RuntimeException('Unable to send mail: ' . $e->getMessage());
-            }
+            } catch (\Throwable $e) {}
             return false;
         } else return false;
     }
