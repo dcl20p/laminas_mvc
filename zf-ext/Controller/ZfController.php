@@ -479,21 +479,21 @@ class ZfController extends AbstractActionController
      * @param integer $page
      * @return mixed
      */
-    // public function getZfPaginator(Query $query, int $limit, int $page): mixed
-    // {
-    //     return $this->getPaginator($query)
-    //         ->setItemCountPerPage($limit)
-    //         ->setCurrentPageNumber($page);
-    // }
+    public function getZfPaginator(Query $query, int $limit, int $page): mixed
+    {
+        return $this->getPaginator($query)
+            ->setItemCountPerPage($limit)
+            ->setCurrentPageNumber($page);
+    }
 
-    // /**
-    //  * Custom get paginator but dont set page
-    //  *
-    //  * @param Query $query
-    //  * @return mixed
-    //  */
-    // public function getDoctrinePaginator(Query $query) : mixed
-    // {
-    //     return $this->getPaginator($query);
-    // }
+    /**
+     * Custom get paginator but dont set page
+     *
+     * @param Query $query
+     * @return mixed
+     */
+    public function getDoctrinePaginator(Query $query) : mixed
+    {
+        return $this->getPaginator($query);
+    }
 }
