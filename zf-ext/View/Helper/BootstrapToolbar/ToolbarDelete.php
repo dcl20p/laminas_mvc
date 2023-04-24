@@ -26,7 +26,7 @@ class ToolbarDelete extends AbstractHelper
 
     public function __construct(Request $request, TreeRouteStack $router)
     {
-        $this->_matchRouter = $router;
+        $this->_matchRouter = $router->match($request);
     }
 
     /**

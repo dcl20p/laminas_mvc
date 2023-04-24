@@ -8,25 +8,18 @@ use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator;
 class ZFDtPaginator extends \Laminas\Paginator\Paginator
 {
     /**
-     *
-     * @var Paginator
-     */
-    protected $_paginator = null;
-
-    /**
-     *
      * @var bool
      */
     protected $_fetchJoinCollection = true;
 
     /**
-     *
-     * @var string
+     * @var	string
      */
-    const FECTH_JOIN_COLLECTION = 'fetchJoinCollection';
+    const FETCH_JOIN_COLLECTION = 'fetchJoinCollection';
 
     /**
-     *
+     * Constructor
+     * 
      * @param Query $query            
      * @param bool $_fetchJoinCollection            
      */
@@ -34,7 +27,7 @@ class ZFDtPaginator extends \Laminas\Paginator\Paginator
     {
         foreach ($query->getParameters() as $index => $parameter) {
             switch ($parameter->getName()) {
-                case self::FECTH_JOIN_COLLECTION:
+                case self::FETCH_JOIN_COLLECTION:
                     $this->_fetchJoinCollection = $parameter->getValue();
                     $query->getParameters()->offsetUnset($index);
                     break;

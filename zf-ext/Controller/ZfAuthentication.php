@@ -38,16 +38,21 @@ class ZfAuthentication extends AbstractPlugin
     {
         if ($container->has(AuthenticationService::class)) {
             $this->authen = $container->get(AuthenticationService::class)->getIdentity();
+            
             if ($this->authen) {
-                $configs = $container->get('config');
-
-                $authenConfig = $configs['zf_authen_key'] ?? [];
-                $groupKey = ($configs['zf_permission'] ?? [])[APPLICATION_SITE]['user_key'] ?? 'user_groupcode';
-                
-                $this->authen->authen_key = $authenConfig[APPLICATION_SITE] ?? 'user_id';
-                $this->authen->group_key = $groupKey;
-
-                unset($configs);
+                if (is_array($this->authen)) {
+                    $this->authen = null;
+                } else {
+                    $configs = $container->get('config');
+    
+                    $authenConfig = $configs['zf_authen_key'] ?? [];
+                    $groupKey = ($configs['zf_permission'] ?? [])[APPLICATION_SITE]['user_key'] ?? 'user_groupcode';
+                    
+                    $this->authen->authen_key = $authenConfig[APPLICATION_SITE] ?? 'user_id';
+                    $this->authen->group_key = $groupKey;
+    
+                    unset($configs);
+                }
             }
         }
     }
