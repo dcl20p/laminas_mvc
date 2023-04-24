@@ -31,7 +31,11 @@
         "matomo/device-detector": "*",
         "laminas/laminas-crypt": "*",
         "laminas/laminas-cache-storage-adapter-redis": "*",
-        "laminas/laminas-serializer": "*"
+        "laminas/laminas-serializer": "*",
+        "laminas/laminas-mail": "*",
+        "symfony/cache": "*",
+        "laminas/laminas-cache": "*",
+        "laminas/laminas-paginator": "*"
     },
     "autoload": {
         "psr-4": {
