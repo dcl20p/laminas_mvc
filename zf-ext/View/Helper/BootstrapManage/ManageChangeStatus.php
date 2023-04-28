@@ -30,25 +30,29 @@ class ManageChangeStatus extends AbstractHelper {
 	 * Create a button "Status" element
 	 * 
 	 * @param string $href
-	 * @param string $status
+	 * @param integer $status
 	 * @param array $attribs
 	 *        	
 	 * @return string
 	 */
-	public function __invoke(string $href, string $status, array $attribs = []): string 
+	public function __invoke(string $href, int $status, array $attribs = []): string 
 	{
-		$icon = $status ? 'fa-check' : 'fa-circle';
+		$icon = $status ? 'done' : 'clear';
+		$state = $status ? ' btn-outline-success ' : ' btn-outline-danger ';
 
 		$title = match ($status) {
             true => $this->view->translate('Bỏ kích hoạt'),
             default => $this->view->translate('Kích hoạt'),
         };
 		
-		$attribs = [
+		$attribs = array_merge([
 			'href' => $href,
 			'title' => $title,
-			'aclass' => 'change-status ' . ($attribs['aclass'] ?? ''),
-		];
+			'iclass' => 'text-sm ' . ($attribs['iclass'] ?? ''),
+			'data-confirm' => $attribs ["data-confirm"] ?? $this->view->translate('Bạn có chắc muốn thay đổi trạng thái dòng này?'),
+			'aclass' => 'btn btn-icon-only btn-rounded mb-0 me-2 btn-sm d-flex align-items-center justify-content-center change-status' . $state . ($attribs['aclass'] ?? ''),
+			'data-btn-status' => $status,
+		], $attribs ?? []);
 
 		// Initialize manageIcon.
 		return $this->view->manageIcon($icon, $attribs);

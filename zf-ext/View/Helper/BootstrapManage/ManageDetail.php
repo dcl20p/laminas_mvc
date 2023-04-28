@@ -40,7 +40,8 @@ class ManageDetail extends AbstractHelper
         $attribs = array_merge([
             'href' => $href,
             'title' => $title,
-            'aclass' => '',
+            'aclass' => $attribs['aclass'] ?? '',
+            'iclass' => 'text-info ' . ($attribs['iclass'] ?? ''),
         ], $attribs ?? []);
         
         // Set the button icon.

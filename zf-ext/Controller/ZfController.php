@@ -16,6 +16,7 @@ use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Laminas\Mime\Mime;
 use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\View\Model\JsonModel;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\DoctrineProvider;
 use Zf\Ext\Utilities\ZFHelper;
@@ -495,5 +496,28 @@ class ZfController extends AbstractActionController
     public function getDoctrinePaginator(Query $query) : mixed
     {
         return $this->getPaginator($query);
+    }
+
+    /**
+     * return JsonModel
+     *
+     * @param boolean $state
+     * @param string $tokenFolder
+     * @return JsonModel
+     */
+    public function returnJsonModel(bool $state = false, string $tokenFolder = ''): JsonModel
+    {
+        $models = [
+            'success' => $state,
+            'msg' => $state ? $this->mvcTranslate(ZF_MSG_UPDATE_SUCCESS)
+                : $this->mvcTranslate(ZF_MSG_UPDATE_FAIL)
+        ]; 
+
+        if (!empty($tokenFolder)) $models['token'] = $this->generateCsrfToken(
+            [$tokenFolder, microtime(true), rand(100, 999999)],
+            $tokenFolder
+        );
+
+        return new JsonModel($models);
     }
 }

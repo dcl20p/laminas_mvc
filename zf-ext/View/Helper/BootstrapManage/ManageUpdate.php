@@ -41,9 +41,12 @@ class ManageUpdate extends AbstractHelper
     {
         $title = empty($title) ? $this->view->translate('Cập nhật') : $title;
 
-        $attribs['href'] = $href;
-        $attribs['title'] = $title;
-        $attribs['aclass'] = $attribs['aclass'] ?? '';
+        $attribs = array_merge([
+            'href' => $href,
+            'title' => $title,
+            'aclass' => $attribs['aclass'] ?? '',
+            'iclass' => 'text-success ' . ($attribs['iclass'] ?? ''),
+        ], $attribs ?? []);
 
         return $this->view->manageIcon(self::DEFAULT_ICON, $attribs);
     }

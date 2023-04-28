@@ -38,10 +38,11 @@ class ManageDelete extends AbstractHelper {
 		$title = $title ?? $this->view->translate ("Xóa");
 		
 		// Add to attribs array.
-		$attribs ["href"]  = $href;
-		$attribs ["title"] = $title;
-		$attribs['aclass'] = 'manage-delete ' . ($attribs['aclass'] ??'');
-		$attribs ["data-confirm"] = $attribs ["data-confirm"] ?? $this->view->translate('Bạn có chắc muốn xóa dòng này?');
+		$attribs["href"]  = $href;
+		$attribs["title"] = $title;
+		$attribs['aclass'] = 'manage-delete ' . ($attribs['aclass'] ?? '');
+		$attribs['iclass'] = 'text-danger ' . ($attribs['iclass'] ?? '');
+		$attribs["data-confirm"] = $attribs ["data-confirm"] ?? $this->view->translate('Bạn có chắc muốn xóa dòng này?');
 		// Button icon.
 		$icon = 'delete';
 		
