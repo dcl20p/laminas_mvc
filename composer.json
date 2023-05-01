@@ -35,7 +35,8 @@
         "laminas/laminas-mail": "*",
         "symfony/cache": "*",
         "laminas/laminas-cache": "*",
-        "laminas/laminas-paginator": "*"
+        "laminas/laminas-paginator": "*",
+        "beberlei/doctrineextensions": "*"
     },
     "autoload": {
         "psr-4": {

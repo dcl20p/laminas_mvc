@@ -46,12 +46,13 @@ class ManageChangeStatus extends AbstractHelper {
         };
 		
 		$attribs = array_merge([
-			'href' => $href,
+			'href' => 'javascript:void(0);',
 			'title' => $title,
 			'iclass' => 'text-sm ' . ($attribs['iclass'] ?? ''),
 			'data-confirm' => $attribs ["data-confirm"] ?? $this->view->translate('Bạn có chắc muốn thay đổi trạng thái dòng này?'),
 			'aclass' => 'btn btn-icon-only btn-rounded mb-0 me-2 btn-sm d-flex align-items-center justify-content-center change-status' . $state . ($attribs['aclass'] ?? ''),
-			'data-btn-status' => $status,
+			'data-btn-status' => empty($status) ? 1 : 0 ,
+			'data-href' => $href
 		], $attribs ?? []);
 
 		// Initialize manageIcon.

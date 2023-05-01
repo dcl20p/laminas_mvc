@@ -10,7 +10,7 @@
 
 namespace Zf\Ext\View\Helper;
 
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Laminas\Authentication\AuthenticationService;
 use Laminas\View\Helper\AbstractHelper;
 use Zf\Ext\Utilities\CsrfToken as ZfToken;

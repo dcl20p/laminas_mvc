@@ -36,6 +36,7 @@ class Module
 
                     Helper\HeadScriptAction::class            => Helper\HelperFactory::class,
                     Helper\HeadStyleAction::class             => Helper\HelperFactory::class,
+                    Helper\Authen::class                      => Helper\HelperFactory::class,
                 ],
                 'aliases' => [
                     'lazyAsset'                     => Helper\LazyAsset::class,
@@ -59,6 +60,7 @@ class Module
                             
                     'headScriptAction'              => Helper\HeadScriptAction::class,
                     'headStyleAction'               => Helper\HeadStyleAction::class,
+                    'zfAuthen'                      => Helper\Authen::class,
                 ]
             ]
         ];

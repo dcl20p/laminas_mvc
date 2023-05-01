@@ -10,7 +10,7 @@
 namespace Zf\Ext\Controller;
 
 use Laminas\Mvc\Controller\Plugin\AbstractPlugin;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Laminas\Authentication\AuthenticationService;
 use Zf\Ext\Utilities\CsrfToken;
 

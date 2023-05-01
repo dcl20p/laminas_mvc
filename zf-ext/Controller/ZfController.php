@@ -502,15 +502,22 @@ class ZfController extends AbstractActionController
      * return JsonModel
      *
      * @param boolean $state
+     * @param boolean $isUpdate
      * @param string $tokenFolder
      * @return JsonModel
      */
-    public function returnJsonModel(bool $state = false, string $tokenFolder = ''): JsonModel
+    public function returnJsonModel(bool $state = false, bool $isUpdate = true, string $tokenFolder = ''): JsonModel
     {
+        if ($isUpdate) {
+            $msg = $state ? $this->mvcTranslate(ZF_MSG_UPDATE_SUCCESS)
+                : $this->mvcTranslate(ZF_MSG_UPDATE_FAIL);
+        } else {
+            $msg = $state ? $this->mvcTranslate(ZF_MSG_ADD_SUCCESS)
+                : $this->mvcTranslate(ZF_MSG_ADD_FAIL);
+        }
         $models = [
             'success' => $state,
-            'msg' => $state ? $this->mvcTranslate(ZF_MSG_UPDATE_SUCCESS)
-                : $this->mvcTranslate(ZF_MSG_UPDATE_FAIL)
+            'msg' => $msg
         ]; 
 
         if (!empty($tokenFolder)) $models['token'] = $this->generateCsrfToken(

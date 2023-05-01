@@ -3,13 +3,22 @@
         'name' => 'laminas/laminas-mvc-skeleton',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '19fc29fbed7b4951d29378b1e29d48b3daca69a1',
+        'reference' => '9102565931891ecf4554f60cf143692037e7f768',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
         'dev' => true,
     ),
     'versions' => array(
+        'beberlei/doctrineextensions' => array(
+            'pretty_version' => 'v1.3.0',
+            'version' => '1.3.0.0',
+            'reference' => '008f162f191584a6c37c03a803f718802ba9dd9a',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../beberlei/doctrineextensions',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'brick/varexporter' => array(
             'pretty_version' => '0.3.8',
             'version' => '0.3.8.0',
@@ -503,7 +512,7 @@
         'laminas/laminas-mvc-skeleton' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '19fc29fbed7b4951d29378b1e29d48b3daca69a1',
+            'reference' => '9102565931891ecf4554f60cf143692037e7f768',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
