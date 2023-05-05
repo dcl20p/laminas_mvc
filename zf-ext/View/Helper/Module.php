@@ -25,6 +25,7 @@ class Module
                     BootstrapToolbar\ToolbarIcon::class       => InvokableFactory::class,
                     BootstrapToolbar\ToolbarInsert::class     => ToolbarFactory::class,
                     BootstrapToolbar\ToolbarDelete::class     => ToolbarFactory::class,
+                    BootstrapToolbar\ToolbarClose::class       => ToolbarFactory::class,
              
                     BootstrapManage\ManageIcon::class         => InvokableFactory::class,
                     BootstrapManage\ManageCheckbox::class     => InvokableFactory::class,
@@ -61,6 +62,7 @@ class Module
                     'headScriptAction'              => Helper\HeadScriptAction::class,
                     'headStyleAction'               => Helper\HeadStyleAction::class,
                     'zfAuthen'                      => Helper\Authen::class,
+                    'toolbarClose'                  => BootstrapToolbar\ToolbarClose::class,
                 ]
             ]
         ];
