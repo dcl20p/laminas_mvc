@@ -18,7 +18,7 @@ use Laminas\View\Helper\AbstractHelper;
  */
 class ManageCheckboxAll extends AbstractHelper
 {
-    private string $_formatIcon = '<div class="form-check my-auto">
+    private string $_formatIcon = '<div class="form-check my-auto ps-0">
         <input class="form-check-input" type="checkbox" id="checkall" %s />
     </div>';
 

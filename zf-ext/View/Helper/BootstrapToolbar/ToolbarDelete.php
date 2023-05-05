@@ -48,9 +48,10 @@ class ToolbarDelete extends AbstractHelper
         $label = $label ?? $this->view->translate('Xóa');
 
         // Add href and label to attribs array
-        $attribs['href'] = $href;
+        $attribs['href'] = 'javascript:void(0);';
         $attribs['label'] = $label;
         $attribs['title'] = $label;
+        $attribs['data-href'] = $href;
 
         // Add CSS class to attribs array
         $attribs['aclass'] = ($attribs['aclass'] ?? '') . ' toolbar-delete';

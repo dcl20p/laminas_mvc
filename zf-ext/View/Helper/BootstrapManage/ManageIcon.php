@@ -25,7 +25,7 @@ class ManageIcon extends AbstractHelper
     private string $_formatIcon = '<a data-bs-toggle="tooltip" 
 		class=" %s" href="%s" data-bs-original-title="%s" 
 		onclick="%s" target="%s" %s>
-		<i class="material-icons text-secondary position-relative text-lg">%s</i>
+		<i class="material-icons position-relative text-lg %s" aria-hidden="true">%s</i>
 	</a>';
 
     public function __invoke(string $icon, array $attribs = []): string
@@ -59,6 +59,7 @@ class ManageIcon extends AbstractHelper
             $attribs['onclick'] ?? '',
             $attribs['target'] ?? '',
             $attributes,
+            $attribs['iclass'] ?? '',
             htmlspecialchars($icon)
         );
     }

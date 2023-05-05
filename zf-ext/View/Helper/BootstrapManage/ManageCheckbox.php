@@ -19,7 +19,7 @@ use Laminas\View\Helper\EscapeHtmlAttr;
  */
 class ManageCheckbox extends AbstractHelper
 {
-    private string $_formatIcon = '<div class="form-check my-auto">
+    private string $_formatIcon = '<div class="form-check my-auto ps-0">
         <input class="form-check-input" type="checkbox" name="id[]" value="%s" %s />
     </div>';
 
