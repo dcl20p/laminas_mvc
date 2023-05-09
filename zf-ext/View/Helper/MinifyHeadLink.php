@@ -107,8 +107,8 @@ class MinifyHeadLink extends HeadLink {
 		$indent = (null !== $indent) ? $this->getWhitespace($indent) : $this->getIndent();
 		$trimmedBaseUrl = trim($this->getBaseUrl(), '/');
 		
-		$items = array();
-		$stylesheets = array();
+		$items = [];
+		$stylesheets = [];
 		$this->getContainer()->ksort();
 		foreach ( $this as $item ) {
 		    
@@ -121,7 +121,7 @@ class MinifyHeadLink extends HeadLink {
 			} else {
 				// first get all the stylsheets up to this point, and get them into
 				// the items array
-				$seen = array();
+				$seen = [];
 				foreach ( $stylesheets as $media => $styles ) {
 					$minStyles = new \stdClass();
 					$minStyles->rel = 'stylesheet';
@@ -138,13 +138,13 @@ class MinifyHeadLink extends HeadLink {
 					$items [] = $this->itemToString($minStyles); // add the minified item
 					$seen [] = $this->itemToString($minStyles); // remember we saw it
 				}
-				$stylesheets = array(); // Empty our stylesheets array
+				$stylesheets = []; // Empty our stylesheets array
 				$items [] = $this->itemToString($item); // Add the item
 			}
 		}
 		
 		// Make sure we pick up the final minified item if it exists.
-		$seen = array();
+		$seen = [];
 		foreach ( $stylesheets as $media => $styles ) {
 			$minStyles = new stdClass();
 			$minStyles->rel = 'stylesheet';
