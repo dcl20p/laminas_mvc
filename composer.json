@@ -36,7 +36,8 @@
         "symfony/cache": "*",
         "laminas/laminas-cache": "*",
         "laminas/laminas-paginator": "*",
-        "beberlei/doctrineextensions": "*"
+        "beberlei/doctrineextensions": "*",
+        "gumlet/php-image-resize": "*"
     },
     "autoload": {
         "psr-4": {
@@ -44,7 +45,6 @@
         }
     },
     "scripts": {
-        "clear-config-cache": "php bin/clear-config-cache.php",
         "cs-check": "vendor/bin/phpcs",
         "cs-fix": "vendor/bin/phpcbf",
         "development-disable": "laminas-development-mode disable",

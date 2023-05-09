@@ -147,6 +147,10 @@ class ComposerStaticInitc1d257fba5026671536afd09e260bd65
             'Laminas\\Cache\\' => 14,
             'Laminas\\Authentication\\' => 23,
         ),
+        'G' => 
+        array (
+            'Gumlet\\' => 7,
+        ),
         'F' => 
         array (
             'Fig\\Http\\Message\\' => 17,
@@ -500,6 +504,10 @@ class ComposerStaticInitc1d257fba5026671536afd09e260bd65
         'Laminas\\Authentication\\' => 
         array (
             0 => __DIR__ . '/..' . '/laminas/laminas-authentication/src',
+        ),
+        'Gumlet\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/gumlet/php-image-resize/lib',
         ),
         'Fig\\Http\\Message\\' => 
         array (

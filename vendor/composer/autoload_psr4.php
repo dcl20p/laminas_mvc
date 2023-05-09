@@ -86,6 +86,7 @@ return array(
     'Laminas\\Cache\\Storage\\Adapter\\' => array($vendorDir . '/laminas/laminas-cache-storage-adapter-redis/src'),
     'Laminas\\Cache\\' => array($vendorDir . '/laminas/laminas-cache/src'),
     'Laminas\\Authentication\\' => array($vendorDir . '/laminas/laminas-authentication/src'),
+    'Gumlet\\' => array($vendorDir . '/gumlet/php-image-resize/lib'),
     'Fig\\Http\\Message\\' => array($vendorDir . '/fig/http-message-util/src'),
     'Doctrine\\Persistence\\' => array($vendorDir . '/doctrine/persistence/src/Persistence'),
     'Doctrine\\ORM\\' => array($vendorDir . '/doctrine/orm/lib/Doctrine/ORM'),

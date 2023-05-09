@@ -223,9 +223,10 @@ class ZfController extends AbstractActionController
      * @param mixed $default
      * @return mixed
      */
-    public function getParamsPayload(string $key = null, mixed $default = null): mixed
+    public function getParamsPayload(?string $key = null, mixed $default = null): mixed
     {
         $payload = $this->getRequest()->getContent();
+        if (empty($key)) return @json_decode($payload, true);
         return @json_decode($payload, true)[$key] ?? $default;
     }
 
@@ -235,7 +236,7 @@ class ZfController extends AbstractActionController
      * @param mixed $default
      * @return mixed
      */
-    public function getParamsPost(string $key = null, mixed $default = null): mixed
+    public function getParamsPost(?string $key = null, mixed $default = null): mixed
     {
         return $this->params()->fromPost($key, $default);
     }
@@ -246,7 +247,7 @@ class ZfController extends AbstractActionController
      * @param mixed $default
      * @return mixed
      */
-    public function getParamsQuery(string $key = null, mixed $default = null): mixed
+    public function getParamsQuery(?string $key = null, mixed $default = null): mixed
     {
         return $this->params()->fromQuery($key, $default);
     }
@@ -257,7 +258,7 @@ class ZfController extends AbstractActionController
      * @param mixed $default
      * @return mixed
      */
-    public function getParamsRoute(string $key = null, mixed $default = null): mixed
+    public function getParamsRoute(?string $key = null, mixed $default = null): mixed
     {
         return $this->params()->fromRoute($key, $default);
     }
@@ -268,7 +269,7 @@ class ZfController extends AbstractActionController
      * @param mixed $default
      * @return mixed
      */
-    public function getParamsFiles(string $key = null, mixed $default = null): mixed
+    public function getParamsFiles(?string $key = null, mixed $default = null): mixed
     {
         return $this->params()->fromFiles($key, $default);
     }
@@ -502,22 +503,58 @@ class ZfController extends AbstractActionController
      * return JsonModel
      *
      * @param boolean $state
-     * @param boolean $isUpdate
+     * @param string $method Include:
+     *  - add
+     *  - update
+     *  - save_order
+     *  - duplicate
+     *  - delete
+     *  - refresh_cache
+     *  - not_allow
+     *  - not_exists
+     *  - not_empty
+     *  - went_wrong
      * @param string $tokenFolder
+     * @param string $msg
      * @return JsonModel
      */
-    public function returnJsonModel(bool $state = false, bool $isUpdate = true, string $tokenFolder = ''): JsonModel
+    public function returnJsonModel(bool $state = false, string $method = 'add', string $tokenFolder = '', $msg = ''): JsonModel
     {
-        if ($isUpdate) {
-            $msg = $state ? $this->mvcTranslate(ZF_MSG_UPDATE_SUCCESS)
-                : $this->mvcTranslate(ZF_MSG_UPDATE_FAIL);
-        } else {
-            $msg = $state ? $this->mvcTranslate(ZF_MSG_ADD_SUCCESS)
-                : $this->mvcTranslate(ZF_MSG_ADD_FAIL);
-        }
+        $message = match($method) {
+            'add' => $state ? $this->mvcTranslate(ZF_MSG_ADD_SUCCESS)
+                : $this->mvcTranslate(ZF_MSG_ADD_FAIL),
+
+            'update' => $state ? $this->mvcTranslate(ZF_MSG_UPDATE_SUCCESS)
+                : $this->mvcTranslate(ZF_MSG_UPDATE_FAIL),
+
+            'save_order' => $state ? $this->mvcTranslate(ZF_MSG_SAVE_ORDER_SUCCESS)
+                : $this->mvcTranslate(ZF_MSG_SAVE_ORDER_FAIL),
+
+            'duplicate' => $state ? $this->mvcTranslate(ZF_MSG_DUPLICATE_SUCCESS)
+                : $this->mvcTranslate(ZF_MSG_DUPLICATE_FAIL),
+
+            'delete' => $state ? $this->mvcTranslate(ZF_MSG_DEL_SUCCESS)
+                : $this->mvcTranslate(ZF_MSG_DEL_FAIL),
+
+            'refresh_cache' => $state ? $this->mvcTranslate(ZF_MSG_REFRESH_CACHE_SUCCESS)
+                : $this->mvcTranslate(ZF_MSG_REFRESH_CACHE_FAIL),
+
+            'not_allow' => $this->mvcTranslate(ZF_MSG_NOT_ALLOW),
+
+            'not_exists' => $this->mvcTranslate(ZF_MSG_DATA_NOT_EXISTS),
+
+            'not_empty' => $this->mvcTranslate(ZF_MSG_NOT_EMPTY),
+
+            'went_wrong' => $this->mvcTranslate(ZF_MSG_WENT_WRONG),
+
+            default => $state ? $this->mvcTranslate(ZF_MSG_UPDATE_SUCCESS)
+                : $this->mvcTranslate(ZF_MSG_UPDATE_FAIL),
+        };
+
+        $message = !empty($msg) ? $msg : $message; 
         $models = [
             'success' => $state,
-            'msg' => $msg
+            'msg' => $message
         ]; 
 
         if (!empty($tokenFolder)) $models['token'] = $this->generateCsrfToken(
@@ -526,5 +563,24 @@ class ZfController extends AbstractActionController
         );
 
         return new JsonModel($models);
+    }
+
+    /**
+     * Check valid upload image
+     *
+     * @param array $file
+     * @return boolean
+     */
+    public function isValidUploadImg(array $file = []): bool
+    {
+        if (empty($file['tmp_name'])
+            || $file['error'] !== UPLOAD_ERR_OK
+            || $file['size'] < 1
+            || empty(preg_match('/^(image\/).*/i', $file['type']))
+        ) {
+            return false;
+        }
+
+        return true;
     }
 }
