@@ -46,6 +46,7 @@ class ComposerStaticInitc1d257fba5026671536afd09e260bd65
         'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
         '0d59ee240a4cd96ddbb4ff164fccea4d' => __DIR__ . '/..' . '/symfony/polyfill-php73/bootstrap.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
+        'e39a8b23c42d4e1452234d762b03835a' => __DIR__ . '/..' . '/ramsey/uuid/src/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -80,6 +81,11 @@ class ComposerStaticInitc1d257fba5026671536afd09e260bd65
             'Symfony\\Component\\Console\\' => 26,
             'Symfony\\Component\\Cache\\' => 24,
             'StellaMaris\\Clock\\' => 18,
+        ),
+        'R' => 
+        array (
+            'Ramsey\\Uuid\\' => 12,
+            'Ramsey\\Collection\\' => 18,
         ),
         'P' => 
         array (
@@ -179,6 +185,7 @@ class ComposerStaticInitc1d257fba5026671536afd09e260bd65
         'B' => 
         array (
             'Brick\\VarExporter\\' => 18,
+            'Brick\\Math\\' => 11,
         ),
     );
 
@@ -274,6 +281,14 @@ class ComposerStaticInitc1d257fba5026671536afd09e260bd65
         'StellaMaris\\Clock\\' => 
         array (
             0 => __DIR__ . '/..' . '/stella-maris/clock/src',
+        ),
+        'Ramsey\\Uuid\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ramsey/uuid/src',
+        ),
+        'Ramsey\\Collection\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ramsey/collection/src',
         ),
         'Psr\\SimpleCache\\' => 
         array (
@@ -589,6 +604,10 @@ class ComposerStaticInitc1d257fba5026671536afd09e260bd65
         'Brick\\VarExporter\\' => 
         array (
             0 => __DIR__ . '/..' . '/brick/varexporter/src',
+        ),
+        'Brick\\Math\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/brick/math/src',
         ),
     );
 

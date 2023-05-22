@@ -122,7 +122,8 @@ abstract class CacheCore
      */
     public static function _getRedisCaches(string $cacheKey, array $opts = [])
     {
-        $lifetime = $opts['lifetime'] ?? 86400; // 86400 = 1 days
+        $lifetime = $opts['lifetime'] ? $opts['lifetime'] : 86400; // 86400 = 1 days
+        if (false === $opts['lifetime']) $lifetime = 0;
 
         // Laminas cache Version 1
         if (!isset(self::$_cacheCore[$cacheKey])) {
