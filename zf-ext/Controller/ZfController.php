@@ -21,6 +21,7 @@ use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\DoctrineProvider;
 use Zf\Ext\Utilities\ZFHelper;
 use Zf\Ext\Utilities\ZFTransportSmtp;
+
 /**
  * allow specifying status code as a default, or as an option to methods
  */
@@ -59,7 +60,7 @@ class ZfController extends AbstractActionController
             $params[$key] = $this->makeParamsForInsert($items);
         }
 
-        $url = mb_substr((string)$this->getRequest()->getUri()->getPath(), 0, 200);
+        $url = mb_substr((string) $this->getRequest()->getUri()->getPath(), 0, 200);
         $msg = $exception->getMessage();
 
         // Send mail warning
@@ -79,8 +80,8 @@ class ZfController extends AbstractActionController
                 'error_params' => @json_encode($params),
                 'error_method' => $this->getRequest()->getMethod(),
                 'error_msg' => 'Message: ' . str_replace([$pathApp, $pathPub, $pathLib], '', substr($msg, 0, 2000))
-                    . ".\nOn line: " . $exception->getLine()
-                    . ".\nOf file: " . str_replace([$pathApp, $pathPub, $pathLib], '', $exception->getFile()),
+                . ".\nOn line: " . $exception->getLine()
+                . ".\nOf file: " . str_replace([$pathApp, $pathPub, $pathLib], '', $exception->getFile()),
                 'error_trace' => str_replace([$pathApp, $pathPub, $pathLib], '', substr($exception->getTraceAsString(), 0, 6000)),
                 'error_code' => $exception->getCode(),
                 'error_time' => time()
@@ -98,25 +99,28 @@ class ZfController extends AbstractActionController
      */
     protected function sendMailWarningError(string $content = ''): bool
     {
-        if (defined('ERROR_AUTO_SEND_MAIL')
+        if (
+            defined('ERROR_AUTO_SEND_MAIL')
             && !empty(ERROR_AUTO_SEND_MAIL)
         ) {
             try {
                 return ZFTransportSmtp::sendMail([
-                    'to'        => EMAIL_RECEIVE_ERROR,
-                    'toName'    => 'System Administator',
-                    
-                    'from'      => SIGN_UP_EMAIL,
-                    'fromName'  => DOMAIN_NAME ?? 'System',
-                    
-                    'replyTo'   => NO_REPLY_EMAIL,
-                    'title'     => 'Your service got an error. Please check it',
-                    'msg'       => $content,
-                    'encoding'  => Mime::ENCODING_QUOTEDPRINTABLE
+                    'to' => EMAIL_RECEIVE_ERROR,
+                    'toName' => 'System Administator',
+
+                    'from' => SIGN_UP_EMAIL,
+                    'fromName' => DOMAIN_NAME ?? 'System',
+
+                    'replyTo' => NO_REPLY_EMAIL,
+                    'title' => 'Your service got an error. Please check it',
+                    'msg' => $content,
+                    'encoding' => Mime::ENCODING_QUOTEDPRINTABLE
                 ], $this->getEntityConnection());
-            } catch (\Throwable $e) {}
+            } catch (\Throwable $e) {
+            }
             return false;
-        } else return false;
+        } else
+            return false;
     }
 
     /**
@@ -142,15 +146,16 @@ class ZfController extends AbstractActionController
     public function getDevice(): array
     {
         $default = [
-            'browser'       => 'UNKNOWN',
-            'agent'         => $this->getParamHeader('user-agent'),
-            'device'        => 'UNKNOWN',
-            'version'       => 'UNKNOWN',
-            'type'          => 'UNKNOWN',
-            'os'            => 'UNKNOWN',
-            'os_version'    => 'UNKNOWN',
-            'ip_address'    => $ip = $this->getZfHelper()->getClientIp(),
-            'hostname'      => $this->getHostByIP($ip)
+            'browser' => 'UNKNOWN',
+            'agent' => $this->getParamHeader('user-agent'),
+            'device' => 'UNKNOWN',
+            'device_type' => 14,
+            'version' => 'UNKNOWN',
+            'type' => 'UNKNOWN',
+            'os' => 'UNKNOWN',
+            'os_version' => 'UNKNOWN',
+            'ip_address' => $ip = $this->getZfHelper()->getClientIp(),
+            'hostname' => $this->getHostByIP($ip)
         ];
 
         try {
@@ -158,9 +163,11 @@ class ZfController extends AbstractActionController
 
             // Create adapter of Symfony Cache
             $symfonyCacheAdapter = new FilesystemAdapter(
-                'piwik', 0, $cacheDirectory
+                'piwik',
+                0,
+                $cacheDirectory
             );
-            $doctrineCacheProvider = new DoctrineProvider (
+            $doctrineCacheProvider = new DoctrineProvider(
                 $symfonyCacheAdapter
             );
             $doctrineCacheBridge = new DoctrineBridge(
@@ -172,37 +179,41 @@ class ZfController extends AbstractActionController
             $piwikParser->setCache($doctrineCacheBridge);
 
             $piwikParser->parse();
-            
-            if( $piwikParser->isBot() === true ) {
+
+            if ($piwikParser->isBot() === true) {
                 $botInfo = $piwikParser->getBot();
                 $default['browser'] = $botInfo['name'] ?? '';
                 $default['os'] = $botInfo['category'] ?? '';
                 $default['device'] = 'BOT';
-            }
-            else{
+            } else {
                 $client = $piwikParser->getClient();
                 $osParse = $piwikParser->getOs();
                 $default['browser'] = $client['name'] ?? '';
                 $default['version'] = $client['version'] ?? '';
-                
+
                 $osName = $osParse['name'] ?? '';
-                if ( $osName ){
+                if ($osName) {
                     $default['os'] = $osName;
                     $default['os_version'] = $osParse['version'] ?? '';
                 }
                 $device = $piwikParser->getDeviceName();
-                if ( $device ){
+                $deviceType = $piwikParser->getDevice();
+                
+                if ($device) {
                     $default['device'] = $device;
                 }
-                if ( !empty($client['type']) ){
+                if (!empty($client['type'])) {
                     $default['type'] = strtoupper($client['type']);
+                }
+                if (isset($deviceType)) {
+                    $default['device_type'] = $deviceType;
                 }
             }
 
         } catch (\Throwable $e) {
             $this->saveErrorLog($e);
         }
-        
+
         return $default;
     }
 
@@ -226,7 +237,8 @@ class ZfController extends AbstractActionController
     public function getParamsPayload(?string $key = null, mixed $default = null): mixed
     {
         $payload = $this->getRequest()->getContent();
-        if (empty($key)) return @json_decode($payload, true);
+        if (empty($key))
+            return @json_decode($payload, true);
         return @json_decode($payload, true)[$key] ?? $default;
     }
 
@@ -339,7 +351,7 @@ class ZfController extends AbstractActionController
      * @param string $msg
      * @return void
      */
-    public function addErrorMessage(string $msg = ''): void 
+    public function addErrorMessage(string $msg = ''): void
     {
         $this->flashMessenger()->addErrorMessage(
             $this->mvcTranslate($msg)
@@ -351,7 +363,7 @@ class ZfController extends AbstractActionController
      * @param string $msg
      * @return void
      */
-    public function addSuccessMessage(string $msg = ''): void 
+    public function addSuccessMessage(string $msg = ''): void
     {
         $this->flashMessenger()->addSuccessMessage(
             $this->mvcTranslate($msg)
@@ -420,11 +432,11 @@ class ZfController extends AbstractActionController
      * @return string
      */
     public function generateCsrfToken(
-        array $unique = [], 
-        ?string $userFolder = null, 
-        ?string $site = null, 
-        int $lifetime = 86400): string 
-    {
+        array $unique = [],
+        ?string $userFolder = null,
+        ?string $site = null,
+        int $lifetime = 86400
+    ): string {
         return $this->zfCsrfToken()->generateCsrfToken($unique, $userFolder, $site, $lifetime);
     }
 
@@ -438,11 +450,11 @@ class ZfController extends AbstractActionController
      * @return bool true if token is valid
      */
     public function isValidCsrfToken(
-        ?string $token = null, 
-        ?string $userFolder = null, 
-        int $lifetime = 86400, 
-        ?string $site = null): bool
-    {
+        ?string $token = null,
+        ?string $userFolder = null,
+        int $lifetime = 86400,
+        ?string $site = null
+    ): bool {
         return $this->zfCsrfToken()->isValidCsrfToken($token, $userFolder, $lifetime, $site);
     }
 
@@ -455,10 +467,10 @@ class ZfController extends AbstractActionController
      * @return bool true if success
      */
     public function clearCsrfToken(
-        ?string $token = null, 
-        ?string $userFolder = null, 
-        ?string $site = null): bool
-    {
+        ?string $token = null,
+        ?string $userFolder = null,
+        ?string $site = null
+    ): bool {
         return $this->zfCsrfToken()->clearCsrfToken($token, $userFolder, $site);
     }
 
@@ -494,7 +506,7 @@ class ZfController extends AbstractActionController
      * @param Query $query
      * @return mixed
      */
-    public function getDoctrinePaginator(Query $query) : mixed
+    public function getDoctrinePaginator(Query $query): mixed
     {
         return $this->getPaginator($query);
     }
@@ -520,24 +532,24 @@ class ZfController extends AbstractActionController
      */
     public function returnJsonModel(bool $state = false, string $method = 'add', string $tokenFolder = '', $msg = ''): JsonModel
     {
-        $message = match($method) {
+        $message = match ($method) {
             'add' => $state ? $this->mvcTranslate(ZF_MSG_ADD_SUCCESS)
-                : $this->mvcTranslate(ZF_MSG_ADD_FAIL),
+            : $this->mvcTranslate(ZF_MSG_ADD_FAIL),
 
             'update' => $state ? $this->mvcTranslate(ZF_MSG_UPDATE_SUCCESS)
-                : $this->mvcTranslate(ZF_MSG_UPDATE_FAIL),
+            : $this->mvcTranslate(ZF_MSG_UPDATE_FAIL),
 
             'save_order' => $state ? $this->mvcTranslate(ZF_MSG_SAVE_ORDER_SUCCESS)
-                : $this->mvcTranslate(ZF_MSG_SAVE_ORDER_FAIL),
+            : $this->mvcTranslate(ZF_MSG_SAVE_ORDER_FAIL),
 
             'duplicate' => $state ? $this->mvcTranslate(ZF_MSG_DUPLICATE_SUCCESS)
-                : $this->mvcTranslate(ZF_MSG_DUPLICATE_FAIL),
+            : $this->mvcTranslate(ZF_MSG_DUPLICATE_FAIL),
 
             'delete' => $state ? $this->mvcTranslate(ZF_MSG_DEL_SUCCESS)
-                : $this->mvcTranslate(ZF_MSG_DEL_FAIL),
+            : $this->mvcTranslate(ZF_MSG_DEL_FAIL),
 
             'refresh_cache' => $state ? $this->mvcTranslate(ZF_MSG_REFRESH_CACHE_SUCCESS)
-                : $this->mvcTranslate(ZF_MSG_REFRESH_CACHE_FAIL),
+            : $this->mvcTranslate(ZF_MSG_REFRESH_CACHE_FAIL),
 
             'not_allow' => $this->mvcTranslate(ZF_MSG_NOT_ALLOW),
 
@@ -548,19 +560,20 @@ class ZfController extends AbstractActionController
             'went_wrong' => $this->mvcTranslate(ZF_MSG_WENT_WRONG),
 
             default => $state ? $this->mvcTranslate(ZF_MSG_UPDATE_SUCCESS)
-                : $this->mvcTranslate(ZF_MSG_UPDATE_FAIL),
+            : $this->mvcTranslate(ZF_MSG_UPDATE_FAIL),
         };
 
-        $message = !empty($msg) ? $msg : $message; 
+        $message = !empty($msg) ? $msg : $message;
         $models = [
             'success' => $state,
             'msg' => $message
-        ]; 
+        ];
 
-        if (!empty($tokenFolder)) $models['token'] = $this->generateCsrfToken(
-            [$tokenFolder, microtime(true), rand(100, 999999)],
-            $tokenFolder
-        );
+        if (!empty($tokenFolder))
+            $models['token'] = $this->generateCsrfToken(
+                [$tokenFolder, microtime(true), rand(100, 999999)],
+                $tokenFolder
+            );
 
         return new JsonModel($models);
     }
@@ -573,7 +586,8 @@ class ZfController extends AbstractActionController
      */
     public function isValidUploadImg(array $file = []): bool
     {
-        if (empty($file['tmp_name'])
+        if (
+            empty($file['tmp_name'])
             || $file['error'] !== UPLOAD_ERR_OK
             || $file['size'] < 1
             || empty(preg_match('/^(image\/).*/i', $file['type']))

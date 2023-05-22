@@ -37,7 +37,8 @@
         "laminas/laminas-cache": "*",
         "laminas/laminas-paginator": "*",
         "beberlei/doctrineextensions": "*",
-        "gumlet/php-image-resize": "*"
+        "gumlet/php-image-resize": "*",
+        "ramsey/uuid": "^4.7"
     },
     "autoload": {
         "psr-4": {

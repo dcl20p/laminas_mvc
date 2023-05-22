@@ -692,7 +692,7 @@ class DeviceDetector
             'browser_family' => $browserFamily,
         ];
     }
-
+    
     /**
      * Sets the Cache class
      *

@@ -50,6 +50,7 @@ class RemoteAddr implements ValidatorInterface
         if (false == ($this->getIpAddress() === $this->getData())) {
             @unlink(DATA_PATH . '/session/' .APPLICATION_SITE. '/sess_' . session_id());
         }
+
         return true;
     }
 
