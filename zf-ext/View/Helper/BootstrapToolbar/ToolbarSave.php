@@ -42,7 +42,9 @@ class ToolbarSave extends AbstractHelper
         $label = $label ?? $this->view->translate('Lưu');
 
         // Use default if onclick attribute not set
-        $attribs['onclick'] = "document.querySelector('#adminForm').submit(); void(0);";
+        if (!isset($attribs['onclick'])) {
+            $attribs['onclick'] = "document.querySelector('#adminForm').submit(); void(0);";
+        }
 
         // Add attributes.
         $attribs['href'] = $href;
