@@ -26,6 +26,7 @@ class Module
                     BootstrapToolbar\ToolbarInsert::class     => ToolbarFactory::class,
                     BootstrapToolbar\ToolbarDelete::class     => ToolbarFactory::class,
                     BootstrapToolbar\ToolbarClose::class       => ToolbarFactory::class,
+                    BootstrapToolbar\ToolbarSave::class       => ToolbarFactory::class,
              
                     BootstrapManage\ManageIcon::class         => InvokableFactory::class,
                     BootstrapManage\ManageCheckbox::class     => InvokableFactory::class,
@@ -50,6 +51,8 @@ class Module
                     'toolbarIcon'                   => BootstrapToolbar\ToolbarIcon::class,
                     'toolbarInsert'                 => BootstrapToolbar\ToolbarInsert::class,
                     'toolbarDelete'                 => BootstrapToolbar\ToolbarDelete::class,
+                    'toolbarClose'                  => BootstrapToolbar\ToolbarClose::class,
+                    'toolbarSave'                   => BootstrapToolbar\ToolbarSave::class,
                             
                     'manageIcon'                    => BootstrapManage\ManageIcon::class,
                     'manageCheckbox'                => BootstrapManage\ManageCheckbox::class,
@@ -62,7 +65,6 @@ class Module
                     'headScriptAction'              => Helper\HeadScriptAction::class,
                     'headStyleAction'               => Helper\HeadStyleAction::class,
                     'zfAuthen'                      => Helper\Authen::class,
-                    'toolbarClose'                  => BootstrapToolbar\ToolbarClose::class,
                 ]
             ]
         ];

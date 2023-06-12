@@ -31,7 +31,7 @@ class ZfPermission extends AbstractPlugin
      *
      * @var \Laminas\Permissions\Acl\Acl|null
      */
-    protected ?\Laminas\Permissions\Acl\Acl $_pACL = null;
+    protected $_pACL = null;
 
     /**
      * An array of configuration options for the plugin.
