@@ -20,10 +20,10 @@ class ZFDtPaginator extends \Laminas\Paginator\Paginator
     /**
      * Constructor
      * 
-     * @param Query $query            
+     * @param mixed $query            
      * @param bool $_fetchJoinCollection            
      */
-    public function __construct(Query $query)
+    public function __construct(mixed $query)
     {
         foreach ($query->getParameters() as $index => $parameter) {
             switch ($parameter->getName()) {
