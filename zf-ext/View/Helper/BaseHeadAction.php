@@ -24,7 +24,7 @@ class BaseHeadAction extends AbstractHelper
         if ($container->has('router') && $container->has('request')) {
             $this->rqParams = $container->get('router')->match(
                 $container->get('request')
-            )->getParams();
+            )?->getParams() ?? [];
 
             $this->parseCtrlModule($this->rqParams['controller'] ?? '');
         }

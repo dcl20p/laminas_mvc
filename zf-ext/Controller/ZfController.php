@@ -21,6 +21,7 @@ use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\DoctrineProvider;
 use Zf\Ext\Utilities\ZFHelper;
 use Zf\Ext\Utilities\ZFTransportSmtp;
+use Zf\Ext\Model\ZFModelEntity;
 
 /**
  * allow specifying status code as a default, or as an option to methods
@@ -423,6 +424,21 @@ class ZfController extends AbstractActionController
     }
 
     /**
+     * Customer entityManager flush
+     *
+     * @param ZFModelEntity $entity
+     * @param string $connectionName
+     * @return void
+     */
+    public function flushTransaction($entity = null, string $connectionName = 'orm_default'): void
+    {
+        if (empty($entity)) {
+            $this->getEntityManager($connectionName)->flush();
+        } else {
+            $this->getEntityManager($connectionName)->flush($entity);
+        }
+    }
+    /**
      * Custom create CSRF token
      *
      * @param array $unique
@@ -488,12 +504,12 @@ class ZfController extends AbstractActionController
     /**
      * Custom get paginator
      *
-     * @param Query $query
+     * @param mixed $query
      * @param integer $limit
      * @param integer $page
      * @return mixed
      */
-    public function getZfPaginator(Query $query, int $limit, int $page): mixed
+    public function getZfPaginator(mixed $query, int $limit, int $page): mixed
     {
         return $this->getPaginator($query)
             ->setItemCountPerPage($limit)

@@ -39,6 +39,7 @@ class Module
                     Helper\HeadScriptAction::class            => Helper\HelperFactory::class,
                     Helper\HeadStyleAction::class             => Helper\HelperFactory::class,
                     Helper\Authen::class                      => Helper\HelperFactory::class,
+                    \Zf\Ext\View\Hook\ZfViewHook::class       => InvokableFactory::class
                 ],
                 'aliases' => [
                     'lazyAsset'                     => Helper\LazyAsset::class,
@@ -65,6 +66,7 @@ class Module
                     'headScriptAction'              => Helper\HeadScriptAction::class,
                     'headStyleAction'               => Helper\HeadStyleAction::class,
                     'zfAuthen'                      => Helper\Authen::class,
+                    'viewHook'                      => \Zf\Ext\View\Hook\ZfViewHook::class
                 ]
             ]
         ];

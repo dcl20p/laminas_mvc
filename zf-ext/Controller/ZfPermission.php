@@ -196,7 +196,7 @@ class ZfPermission extends AbstractPlugin
         $opts = explode('\\', $uri);
         $filePath = implode(DIRECTORY_SEPARATOR, [
             DATA_PATH, self::ZF_ACL_FOLDER . $this->_subFolder, crc32(array_shift($opts)),
-            crc32($uri) . '.php'
+            crc32($routeName . '\\' . end($opts)) . '.php'
         ]);
         
         // -- File not exists, file empty or isset => Granted
