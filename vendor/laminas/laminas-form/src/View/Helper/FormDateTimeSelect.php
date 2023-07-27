@@ -161,6 +161,10 @@ class FormDateTimeSelect extends AbstractFormDateSelect
             $timeType = IntlDateFormatter::LONG;
         }
 
+        if ($this->timeType !== $timeType) {
+            $this->pattern = null;
+        }
+
         $this->timeType = $timeType;
 
         return $this;
@@ -203,19 +207,20 @@ class FormDateTimeSelect extends AbstractFormDateSelect
 
         $result = [];
         foreach ($pregResult as $value) {
-            if (stripos($value, "'") === false && stripos($value, 'd') !== false) {
+            $noDelimiter = stripos($value, "'") === false;
+            if ($noDelimiter && stripos($value, 'd') !== false) {
                 $result['day'] = $value;
-            } elseif (stripos($value, "'") === false && str_contains($value, 'M')) {
+            } elseif ($noDelimiter && str_contains($value, 'M')) {
                 $result['month'] = $value;
-            } elseif (stripos($value, "'") === false && stripos($value, 'y') !== false) {
+            } elseif ($noDelimiter && stripos($value, 'y') !== false) {
                 $result['year'] = $value;
-            } elseif (stripos($value, "'") === false && stripos($value, 'h') !== false) {
+            } elseif ($noDelimiter && stripos($value, 'h') !== false) {
                 $result['hour'] = $value;
-            } elseif (stripos($value, "'") === false && stripos($value, 'm') !== false) {
+            } elseif ($noDelimiter && str_contains($value, 'm')) {
                 $result['minute'] = $value;
-            } elseif (stripos($value, "'") === false && str_contains($value, 's')) {
+            } elseif ($noDelimiter && str_contains($value, 's')) {
                 $result['second'] = $value;
-            } elseif (stripos($value, "'") === false && stripos($value, 'a') !== false) {
+            } elseif ($noDelimiter && stripos($value, 'a') !== false) {
                 // ignore ante/post meridiem marker
                 continue;
             } elseif ($renderDelimiters) {
@@ -234,14 +239,6 @@ class FormDateTimeSelect extends AbstractFormDateSelect
      */
     protected function getDaysOptions(string $pattern): array
     {
-        $keyFormatter   = new IntlDateFormatter(
-            $this->getLocale(),
-            IntlDateFormatter::NONE,
-            IntlDateFormatter::NONE,
-            null,
-            null,
-            'dd'
-        );
         $valueFormatter = new IntlDateFormatter(
             $this->getLocale(),
             IntlDateFormatter::NONE,
@@ -254,8 +251,8 @@ class FormDateTimeSelect extends AbstractFormDateSelect
 
         $result = [];
         for ($day = 1; $day <= 31; $day++) {
-            $key          = $keyFormatter->format($date->getTimestamp());
-            $value        = $valueFormatter->format($date->getTimestamp());
+            $key          = $date->format('d');
+            $value        = $valueFormatter->format($date);
             $result[$key] = $value;
 
             $date->modify('+1 day');
@@ -272,14 +269,6 @@ class FormDateTimeSelect extends AbstractFormDateSelect
      */
     protected function getHoursOptions(string $pattern): array
     {
-        $keyFormatter   = new IntlDateFormatter(
-            $this->getLocale(),
-            IntlDateFormatter::NONE,
-            IntlDateFormatter::NONE,
-            null,
-            null,
-            'HH'
-        );
         $valueFormatter = new IntlDateFormatter(
             $this->getLocale(),
             IntlDateFormatter::NONE,
@@ -291,8 +280,8 @@ class FormDateTimeSelect extends AbstractFormDateSelect
         $date           = new DateTime('1970-01-01 00:00:00');
 
         $result = [];
-        for ($hour = 1; $hour <= 24; $hour++) {
-            $key          = $keyFormatter->format($date);
+        for ($hour = 0; $hour <= 23; $hour++) {
+            $key          = $date->format('H');
             $value        = $valueFormatter->format($date);
             $result[$key] = $value;
 
@@ -310,14 +299,6 @@ class FormDateTimeSelect extends AbstractFormDateSelect
      */
     protected function getMinutesOptions(string $pattern): array
     {
-        $keyFormatter   = new IntlDateFormatter(
-            $this->getLocale(),
-            IntlDateFormatter::NONE,
-            IntlDateFormatter::NONE,
-            null,
-            null,
-            'mm'
-        );
         $valueFormatter = new IntlDateFormatter(
             $this->getLocale(),
             IntlDateFormatter::NONE,
@@ -329,8 +310,8 @@ class FormDateTimeSelect extends AbstractFormDateSelect
         $date           = new DateTime('1970-01-01 00:00:00');
 
         $result = [];
-        for ($min = 1; $min <= 60; $min++) {
-            $key          = $keyFormatter->format($date);
+        for ($min = 0; $min <= 59; $min++) {
+            $key          = $date->format('i');
             $value        = $valueFormatter->format($date);
             $result[$key] = $value;
 
@@ -348,14 +329,6 @@ class FormDateTimeSelect extends AbstractFormDateSelect
      */
     protected function getSecondsOptions(string $pattern): array
     {
-        $keyFormatter   = new IntlDateFormatter(
-            $this->getLocale(),
-            IntlDateFormatter::NONE,
-            IntlDateFormatter::NONE,
-            null,
-            null,
-            'ss'
-        );
         $valueFormatter = new IntlDateFormatter(
             $this->getLocale(),
             IntlDateFormatter::NONE,
@@ -367,8 +340,8 @@ class FormDateTimeSelect extends AbstractFormDateSelect
         $date           = new DateTime('1970-01-01 00:00:00');
 
         $result = [];
-        for ($sec = 1; $sec <= 60; $sec++) {
-            $key          = $keyFormatter->format($date);
+        for ($sec = 0; $sec <= 59; $sec++) {
+            $key          = $date->format('s');
             $value        = $valueFormatter->format($date);
             $result[$key] = $value;
 

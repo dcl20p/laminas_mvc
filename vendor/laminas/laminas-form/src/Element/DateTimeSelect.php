@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Laminas\Form\Element;
 
 use DateTime as PhpDateTime;
+use DateTimeInterface;
 use Exception;
 use Laminas\Form\Exception\InvalidArgumentException;
 use Laminas\Form\FormInterface;
 use Laminas\Validator\Date as DateValidator;
 use Laminas\Validator\ValidatorInterface;
 
+use function array_merge;
 use function is_array;
 use function is_string;
 use function sprintf;
@@ -108,6 +110,15 @@ class DateTimeSelect extends DateSelect
     public function getSecondElement(): Select
     {
         return $this->secondElement;
+    }
+
+    public function getElements(): array
+    {
+        return array_merge(parent::getElements(), [
+            $this->hourElement,
+            $this->minuteElement,
+            $this->secondElement,
+        ]);
     }
 
     /**
@@ -209,7 +220,7 @@ class DateTimeSelect extends DateSelect
             $value = new PhpDateTime();
         }
 
-        if ($value instanceof PhpDateTime) {
+        if ($value instanceof DateTimeInterface) {
             $value = [
                 'year'   => $value->format('Y'),
                 'month'  => $value->format('m'),
