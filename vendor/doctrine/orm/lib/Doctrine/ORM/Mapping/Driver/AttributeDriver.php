@@ -23,7 +23,6 @@ use function class_exists;
 use function constant;
 use function defined;
 use function get_class;
-use function sprintf;
 
 use const PHP_VERSION_ID;
 
@@ -56,10 +55,10 @@ class AttributeDriver extends CompatibilityAnnotationDriver
     public function __construct(array $paths)
     {
         if (PHP_VERSION_ID < 80000) {
-            throw new LogicException(sprintf(
+            throw new LogicException(
                 'The attribute metadata driver cannot be enabled on PHP 7. Please upgrade to PHP 8 or choose a different'
                 . ' metadata driver.'
-            ));
+            );
         }
 
         $this->reader = new AttributeReader();
@@ -436,6 +435,14 @@ class AttributeDriver extends CompatibilityAnnotationDriver
 
                     if ($joinTableAttribute->options) {
                         $joinTable['options'] = $joinTableAttribute->options;
+                    }
+
+                    foreach ($joinTableAttribute->joinColumns as $joinColumn) {
+                        $joinTable['joinColumns'][] = $this->joinColumnToArray($joinColumn);
+                    }
+
+                    foreach ($joinTableAttribute->inverseJoinColumns as $joinColumn) {
+                        $joinTable['inverseJoinColumns'][] = $this->joinColumnToArray($joinColumn);
                     }
                 }
 

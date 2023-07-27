@@ -9,16 +9,16 @@
  */
 namespace PHPUnit\TextUI\Output\Default\ProgressPrinter;
 
-use PHPUnit\Event\Test\PrintedUnexpectedOutput;
-use PHPUnit\Event\Test\PrintedUnexpectedOutputSubscriber;
+use PHPUnit\Event\Test\ErrorTriggered;
+use PHPUnit\Event\Test\ErrorTriggeredSubscriber;
 
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
-final class TestPrintedUnexpectedOutputSubscriber extends Subscriber implements PrintedUnexpectedOutputSubscriber
+final class TestTriggeredErrorSubscriber extends Subscriber implements ErrorTriggeredSubscriber
 {
-    public function notify(PrintedUnexpectedOutput $event): void
+    public function notify(ErrorTriggered $event): void
     {
-        $this->printer()->testPrintedOutput($event);
+        $this->printer()->testTriggeredError($event);
     }
 }

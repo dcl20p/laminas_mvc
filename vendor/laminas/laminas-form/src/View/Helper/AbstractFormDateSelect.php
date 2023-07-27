@@ -83,11 +83,12 @@ abstract class AbstractFormDateSelect extends AbstractHelper
 
         $result = [];
         foreach ($pregResult as $value) {
-            if (stripos($value, "'") === false && stripos($value, 'd') !== false) {
+            $noDelimiter = stripos($value, "'") === false;
+            if ($noDelimiter && stripos($value, 'd') !== false) {
                 $result['day'] = $value;
-            } elseif (stripos($value, "'") === false && stripos($value, 'm') !== false) {
+            } elseif ($noDelimiter && stripos($value, 'm') !== false) {
                 $result['month'] = $value;
-            } elseif (stripos($value, "'") === false && stripos($value, 'y') !== false) {
+            } elseif ($noDelimiter && stripos($value, 'y') !== false) {
                 $result['year'] = $value;
             } elseif ($renderDelimiters) {
                 $result[] = str_replace("'", '', $value);
@@ -122,6 +123,10 @@ abstract class AbstractFormDateSelect extends AbstractHelper
             $dateType = IntlDateFormatter::LONG;
         }
 
+        if ($this->dateType !== $dateType) {
+            $this->pattern = null;
+        }
+
         $this->dateType = $dateType;
 
         return $this;
@@ -142,7 +147,12 @@ abstract class AbstractFormDateSelect extends AbstractHelper
      */
     public function setLocale(string $locale)
     {
+        if ($this->locale !== $locale) {
+            $this->pattern = null;
+        }
+
         $this->locale = $locale;
+
         return $this;
     }
 
@@ -166,14 +176,6 @@ abstract class AbstractFormDateSelect extends AbstractHelper
      */
     protected function getMonthsOptions(string $pattern): array
     {
-        $keyFormatter   = new IntlDateFormatter(
-            $this->getLocale(),
-            IntlDateFormatter::NONE,
-            IntlDateFormatter::NONE,
-            null,
-            null,
-            'MM'
-        );
         $valueFormatter = new IntlDateFormatter(
             $this->getLocale(),
             IntlDateFormatter::NONE,
@@ -186,7 +188,7 @@ abstract class AbstractFormDateSelect extends AbstractHelper
 
         $result = [];
         for ($month = 1; $month <= 12; $month++) {
-            $key          = $keyFormatter->format($date->getTimestamp());
+            $key          = $date->format('m');
             $value        = $valueFormatter->format($date->getTimestamp());
             $result[$key] = $value;
 

@@ -68,7 +68,7 @@ class DeviceDetector
     /**
      * Current version number of DeviceDetector
      */
-    public const VERSION = '6.1.2';
+    public const VERSION = '6.1.3';
 
     /**
      * Constant used as value for unknown browser / os
@@ -692,7 +692,7 @@ class DeviceDetector
             'browser_family' => $browserFamily,
         ];
     }
-    
+
     /**
      * Sets the Cache class
      *
