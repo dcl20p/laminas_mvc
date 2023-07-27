@@ -374,7 +374,7 @@ class ZfController extends AbstractActionController
     /**
      * Custom get repository entityManager
      * 
-     * @param Models\Entities $entityName
+     * @param string $entityName
      * @param string $connectionName
      * @return \Doctrine\ORM\EntityRepository|\Doctrine\Persistence\ObjectRepository
      */
